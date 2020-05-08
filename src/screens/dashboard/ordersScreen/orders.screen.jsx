@@ -4,6 +4,11 @@ import CategoryHeader from "../../../components/categoryHeader/categoryHeader.co
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
 
+import CategoryBody from "../../../components/categoryBody/categoryBody.component";
+import CategorySubHeading from "../../../components/categorySubHeading/categorySubHeading.component";
+import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
+import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
+
 class OrdersScreen extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +30,54 @@ class OrdersScreen extends Component {
             cb={(e) => this.setState({ search: e.target.value })}
           />
         </CategoryHeader>
+
+        <CategoryBody>
+          <CategorySubHeading
+            items={[
+              { title: "Customer", size: 10 },
+              { title: "Time", size: 10},
+              { title: "Address", size: 40 },
+              { title: "Amount", size: 10 },
+              { title: "Payment\nStatus", size: 10 },
+              { title: "contact", size: 10 },
+              { title: "status", size: 10 },
+            ]}
+          />
+          <CategorySubBody>
+          <CategorySubBodyItem
+              item={[
+                {
+                  item: "Customer 1",
+                  size: 10,
+                },
+                {
+                  item: "7 May 2019",
+                  size: 10,
+                },
+                {
+                  item: "29 Eve Street, 543 Evenue Road, Ny 87876",
+                  size: 40,
+                },
+                {
+                  item: "Rs.3000",
+                  size: 10,
+                },
+                {
+                  item: "Paid",
+                  size: 10,
+                },
+                {
+                  item: "9014875356",
+                  size: 10,
+                },
+                {
+                  item: "Delevering",
+                  size: 10,
+                },
+              ]}
+            />
+          </CategorySubBody>
+        </CategoryBody>
     </div>;
   }
 }

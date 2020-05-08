@@ -1,0 +1,44 @@
+.itemCard{
+    &-wrapper{
+        background-color: $white;
+        width: 35rem;
+        height: 35rem;
+        box-shadow: 0px 3px 6px $box-shadow;
+    }
+
+    &-image{
+        height: 70%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    &-info{
+        height: 30%;
+        padding: 1.5rem;
+        &>*{
+           &:not(:first-child){
+            margin-top: 1rem;
+           }
+        }
+        &-title{
+            font-size: 2.1rem;
+            color: $text-color;
+            font-family: 'Bahnschrift Regular';
+            font-weight: 500;
+        }
+        &-quantity{
+            font-size: 1.5rem;
+            color: $text-color;
+            font-family: 'Bahnschrift Regular';
+            font-weight: 100;
+        }
+
+        &-price{
+            font-size: 1.5rem;
+            color: $primaryColor;
+            font-family: 'Bahnschrift Regular';
+            font-weight: bolder;
+        }
+    }
+}

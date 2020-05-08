@@ -4,6 +4,9 @@ import CategoryHeader from "../../../components/categoryHeader/categoryHeader.co
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
 
+import CategoryBody from "../../../components/categoryBody/categoryBody.component";
+import ItemCard from "../../../components/itemCard/itemCard.component";
+
 class ProductsScreen extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +14,97 @@ class ProductsScreen extends Component {
       search: "",
     };
   }
+
+  items = [
+    {
+      image : require("../../../Assets/images/green-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/grey-brim.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/palm-tree-cap.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/red-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/green-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/grey-brim.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/palm-tree-cap.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/red-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/green-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/grey-brim.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/palm-tree-cap.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/red-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/green-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+    {
+      image : require("../../../Assets/images/grey-brim.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/palm-tree-cap.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },{
+      image : require("../../../Assets/images/red-beanie.png"),
+      title : "Brown Ban Hat",
+      quantity : 10,
+      price : 500
+    },
+  ]
   render() {
     return (
       <div className="window-wrapper">
@@ -33,6 +127,16 @@ class ProductsScreen extends Component {
             cb={(e) => this.setState({ search: e.target.value })}
           />
         </CategoryHeader>
+
+        <CategoryBody>
+          <div className="products-grid">
+            
+            {
+              this.items.map((item,index)=><ItemCard  key={`Item${index}`} item={item} />)
+            }
+
+          </div>
+        </CategoryBody>
       </div>
     );
   }

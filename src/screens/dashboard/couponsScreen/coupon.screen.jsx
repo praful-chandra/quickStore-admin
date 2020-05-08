@@ -1,9 +1,16 @@
 import React, { Component } from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilRuler, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+ 
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
 import ActionButton from "../../../components/actionButton/actionButton.component";
+
+import CategoryBody from "../../../components/categoryBody/categoryBody.component";
+import CategorySubHeading from "../../../components/categorySubHeading/categorySubHeading.component";
+import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
+import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
 class CouponScreen extends Component {
   constructor(props) {
@@ -28,6 +35,54 @@ class CouponScreen extends Component {
           />
           <ActionButton title="Add Coupon" size="28" cb={() => {}} />
         </CategoryHeader>
+
+        <CategoryBody>
+          <CategorySubHeading
+            items={[
+              { title: "Name", size: 10 },
+              { title: "Gen at", size: 10},
+              { title: "CODE", size: 40 },
+              { title: "Remaining", size: 10 },
+              { title: "Discount\n%", size: 10 },
+              { title: "Edit", size: 10 },
+              { title: "Remove", size: 10 },
+            ]}
+          />
+          <CategorySubBody>
+          <CategorySubBodyItem
+              item={[
+                {
+                  item: "CouponKing",
+                  size: 10,
+                },
+                {
+                  item: "7 May 2019",
+                  size: 10,
+                },
+                {
+                  item: "FLAT50",
+                  size: 40,
+                },
+                {
+                  item: "10/50",
+                  size: 10,
+                },
+                {
+                  item: "50",
+                  size: 10,
+                },
+                {
+                  item: <FontAwesomeIcon icon={faPencilRuler} />,
+                  size: 10,
+                },
+                {
+                  item: <FontAwesomeIcon icon={faTrashAlt} />,
+                  size: 10,
+                },
+              ]}
+            />
+          </CategorySubBody>
+        </CategoryBody>
       </div>
     );
   }

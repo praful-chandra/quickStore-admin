@@ -1,9 +1,16 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilRuler, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
 import ActionButton from "../../../components/actionButton/actionButton.component";
+
+import CategoryBody from "../../../components/categoryBody/categoryBody.component";
+import CategorySubHeading from "../../../components/categorySubHeading/categorySubHeading.component";
+import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
+import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
 class CampaignScreen extends Component {
   constructor(props) {
@@ -28,6 +35,54 @@ class CampaignScreen extends Component {
           />
           <ActionButton title="Add Campaign" size="28" cb={() => {}} />
         </CategoryHeader>
+
+        <CategoryBody>
+          <CategorySubHeading
+            items={[
+              { title: "image", size: 10 },
+              { title: "Campaign Name", size: 40 },
+              { title: "views", size: 20 },
+              { title: "Items\nSold", size: 10 },
+              { title: "edit", size: 10 },
+              { title: "Remove", size: 10 },
+            ]}
+          />
+          <CategorySubBody>
+            <CategorySubBodyItem
+              item={[
+                {
+                  item: (
+                    <img
+                      src={`${require("../../../Assets/images/red-beanie.png")}`}
+                      alt="productItm"
+                    />
+                  ),
+                  size: 10,
+                },
+                {
+                  item: "That campaign Name",
+                  size: 40,
+                },
+                {
+                  item: 1540,
+                  size: 20,
+                },
+                {
+                  item: 150,
+                  size: 10,
+                },
+                {
+                  item: <FontAwesomeIcon icon={faPencilRuler} />,
+                  size: 10,
+                },
+                {
+                  item: <FontAwesomeIcon icon={faTrashAlt} />,
+                  size: 10,
+                },
+              ]}
+            />
+          </CategorySubBody>
+        </CategoryBody>
       </div>
     );
   }
