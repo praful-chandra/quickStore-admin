@@ -1,0 +1,18 @@
+.dropDownBox{
+
+    &-label{
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: $text-color;
+        font-family: 'Bahnschrift Regular'; 
+    }
+    &-select{
+        width: 26rem;
+        height: 7.5rem;
+        background-color: $backgroundColor;
+        font-size: 2.5rem;
+        color: $text-color;
+        font-family: 'Righteous', cursive;
+        border: none;
+    }
+}

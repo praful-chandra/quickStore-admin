@@ -1,0 +1,11 @@
+@mixin flexer-horizontal-spacebetween {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flexer-horizontal-totalCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

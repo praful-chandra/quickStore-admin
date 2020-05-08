@@ -1,0 +1,26 @@
+//Global imports
+@import "./colors.scss";
+@import "./fonts.scss";
+@import "./mixins.scss";
+@import "./responsive.scss";
+
+//main App import
+@import "../App.scss";
+
+//Screens Import
+@import "../screens/LoginScreen/loginScreen.scss";
+@import "../screens/dashboard/layout/layout.styles.scss";
+@import "../screens/dashboard/CampaignScreen/campaign.styles.scss";
+@import "../screens/dashboard/categoryScreen/category.styles.scss";
+@import "../screens/dashboard/CouponsScreen/coupon.styles.scss";
+@import "../screens/dashboard/productsScreen/products.styles.scss";
+@import "../screens/dashboard/OrdersScreen/orders.styles.scss";
+@import "../screens/dashboard/SalesScreen/sales.styles.scss";
+
+//Components Import
+@import "../components/textBox/textBox.component.scss";
+@import "../components/actionButton/actionButton.styles.scss";
+@import "../components/navbar/navbar.styles.scss";
+@import "../components/leftBar/leftBar.styles.scss";
+@import "../components/dropDownBox/dropdownBox.styles.scss";
+@import "../components/categoryHeader/categoryHeader.styles.scss";
