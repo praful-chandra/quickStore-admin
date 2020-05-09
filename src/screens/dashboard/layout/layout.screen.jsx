@@ -11,7 +11,6 @@ import SalesScreen from "../salesScreen/sales.screen";
 import CouponsScreen from "../couponsScreen/coupon.screen";
 
 
-
 class DashboardtLayout extends Component {
   state = {
     item : 0

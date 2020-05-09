@@ -7,6 +7,7 @@ import TextBox from "../../../components/textBox/textBox.component";
 import CategoryBody from "../../../components/categoryBody/categoryBody.component";
 import ItemCard from "../../../components/itemCard/itemCard.component";
 
+
 class ProductsScreen extends Component {
   constructor(props) {
     super(props);
@@ -108,6 +109,7 @@ class ProductsScreen extends Component {
   render() {
     return (
       <div className="window-wrapper">
+
         <CategoryHeader title="Products">
           <DropDownBox
             label="Category"
