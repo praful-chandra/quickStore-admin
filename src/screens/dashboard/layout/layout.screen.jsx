@@ -10,12 +10,12 @@ import CampaignScreen from "../campaignScreen/campaign.screen";
 import SalesScreen from "../salesScreen/sales.screen";
 import CouponsScreen from "../couponsScreen/coupon.screen";
 
-import OverlayScreen from "../../overlay/overlay.screen";
+import OverlayScreen from "../../../overlay/overlay.screen";
 
 class DashboardtLayout extends Component {
   state = {
     item: 0,
-    overLayItem: "",
+    overLayItem: null,
     overlay: false,
   };
 

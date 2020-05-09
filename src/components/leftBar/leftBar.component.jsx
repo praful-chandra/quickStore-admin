@@ -11,7 +11,7 @@ import {
 
 class LeftBar extends Component {
   state = {
-    active: 0,
+    active: 3,
   };
 
   items = [

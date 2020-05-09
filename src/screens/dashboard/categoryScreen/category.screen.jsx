@@ -12,6 +12,8 @@ import CategorySubHeading from "../../../components/categorySubHeading/categoryS
 import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
+import CategoryOverlay from "../../../overlay/overlayBody/category.overlay";
+
 class CategoryScreen extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +37,7 @@ class CategoryScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Category" size="28" cb={() =>this.props.overlaySelector("Add category")} />
+          <ActionButton title="Add Category" size="28" cb={() =>this.props.overlaySelector(<CategoryOverlay />)} />
         </CategoryHeader>
 
         <CategoryBody>

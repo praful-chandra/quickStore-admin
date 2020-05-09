@@ -1,0 +1,41 @@
+.toggleSwitch{
+    &-wrapper{
+        width: 8.8rem;
+        height: 4rem;
+        border-radius: 50px;
+        background-color: $primaryColor;
+        padding:0.4rem 0.3rem;
+        transition: all 0.2s ease-in;
+        margin: 1rem 0;
+
+    } 
+
+    &-nibble{
+        width: 40%;
+        height: 3.2rem;
+        background-color: $white;
+        border-radius: 100%;
+        cursor: pointer;
+        justify-self: flex-end;
+        transition: all 0.2s ease-in;
+
+     
+    }
+
+    &-text{
+        color: $primaryColor;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 0.3rem;
+        text-transform: uppercase;
+        font-family: 'Bahnschrift Regular';
+        width:60%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s linear;
+
+    }
+}

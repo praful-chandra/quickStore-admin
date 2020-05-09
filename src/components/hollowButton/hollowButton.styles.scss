@@ -1,0 +1,20 @@
+.hollowButton{
+    background-color: $white;
+    height: 6rem;
+    border-radius: 25px;
+    color: $primaryColor;
+    border: 3px solid;
+    font-size: 2.5rem;
+    font-family: 'Righteous', cursive;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.25s ease-in;
+    margin: 1rem 0;
+    &:hover{
+        background-color: $primaryColor;
+        color: $white;
+    }
+}

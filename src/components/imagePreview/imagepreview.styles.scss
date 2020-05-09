@@ -1,0 +1,21 @@
+.imagePreview{
+    height: 32rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: $backgroundColor;
+    position: relative;
+    &-edit{
+        cursor: pointer;
+        width: 5rem;
+        height: 5rem;
+        border-radius: 100%;
+        background-color: $primaryColor;
+        color: $white;
+        position: absolute;
+        font-size: 2rem;
+        right: 1rem;
+        bottom: 1rem;
+        @include flexer-horizontal-totalCenter();
+    }
+}

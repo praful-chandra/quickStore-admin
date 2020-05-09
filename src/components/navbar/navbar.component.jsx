@@ -2,6 +2,9 @@ import React from "react";
 
 import ActionButton from "../actionButton/actionButton.component";
 
+//import overlay for products
+import ProductOverlay from "../../overlay/overlayBody/product.overlay";
+
 function NavBar(props) {
     return(
         <div className="navBar-wrapper">
@@ -13,7 +16,7 @@ function NavBar(props) {
                 <ActionButton 
                     title="Add products"
                     size="19"
-                    cb={()=>props.overlaySelector("add Products")}
+                    cb={()=>props.overlaySelector(<ProductOverlay />)}
                 />
             </div>
             <div className="navBar-profile">

@@ -16,7 +16,6 @@
 @import "../screens/dashboard/productsScreen/products.styles.scss";
 @import "../screens/dashboard/OrdersScreen/orders.styles.scss";
 @import "../screens/dashboard/SalesScreen/sales.styles.scss";
-@import "../screens/overlay/overlay.styles.scss";
 
 //Components Import
 @import "../components/textBox/textBox.component.scss";
@@ -30,3 +29,9 @@
 @import "../components/categorySubHeading/categorySubHeading.styles.scss";
 @import "../components/categorySubBody/categorySubBody.styles.scss";
 @import "../components/categorySubBody/categorySubBody.item.styles.scss";
+@import "../components/imagePreview/imagepreview.styles.scss";
+@import "../components/textArea/textArea.styles.scss";
+@import "../components/toggleSwitch/toggleSwitch.styles.scss";
+@import "../components/hollowButton/hollowButton.styles.scss";
+//Overlays Import
+@import "../overlay/overlay.styles.scss";
