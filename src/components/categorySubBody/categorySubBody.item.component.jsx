@@ -4,7 +4,7 @@ import React from "react";
 
 function CategorySubBodyItem(props) {
     const items=props.item
-    return <div className="categorySubBody-item-wrapper">
+    return <div className="categorySubBody-item-wrapper" onClick={props.viewItem}>
          {items.map((item, index) => (
         <div
           key={`SubHeaderItem${index}`}

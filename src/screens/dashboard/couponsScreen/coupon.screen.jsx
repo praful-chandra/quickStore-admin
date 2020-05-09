@@ -33,7 +33,7 @@ class CouponScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Coupon" size="28" cb={() => {}} />
+          <ActionButton title="Add Coupon" size="28" cb={() => this.props.overlaySelector("Add Coupon")} />
         </CategoryHeader>
 
         <CategoryBody>
@@ -50,6 +50,7 @@ class CouponScreen extends Component {
           />
           <CategorySubBody>
           <CategorySubBodyItem
+          viewItem={()=>this.props.overlaySelector("view Coupon")}
               item={[
                 {
                   item: "CouponKing",

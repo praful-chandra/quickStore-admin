@@ -2,7 +2,7 @@ import React from "react";
 
 function ItemCard(props) {
         const {image,title,quantity,price} = props.item;
-    return <div className="itemCard-wrapper">
+    return <div className="itemCard-wrapper" onClick={props.viewItem}>
         <div className="itemCard-image" style={{backgroundImage : `url(${image})`}}>
         </div>
         <div className="itemCard-info">

@@ -33,7 +33,7 @@ class SalesScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Sale" size="28" cb={() => {}} />
+          <ActionButton title="Add Sale" size="28" cb={() => this.props.overlaySelector("Add Sales")} />
         </CategoryHeader>
 
         <CategoryBody>
@@ -49,6 +49,7 @@ class SalesScreen extends Component {
           />
           <CategorySubBody>
             <CategorySubBodyItem
+            viewItem={()=>this.props.overlaySelector("View Item Sales")}
               item={[
                 {
                   item: (

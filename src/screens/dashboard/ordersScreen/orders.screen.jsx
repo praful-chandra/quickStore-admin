@@ -45,6 +45,7 @@ class OrdersScreen extends Component {
           />
           <CategorySubBody>
           <CategorySubBodyItem
+            viewItem={()=>{this.props.overlaySelector("view Order")}}
               item={[
                 {
                   item: "Customer 1",
