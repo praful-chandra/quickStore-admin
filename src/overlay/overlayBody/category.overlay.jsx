@@ -4,7 +4,7 @@ import ImagePreview from "../../components/imagePreview/imagepreview.component";
 import TextBox from "../../components/textBox/textBox.component";
 import ToggleSwitch from "../../components/toggleSwitch/toggleSwitch.component";
 import HollowButton from "../../components/hollowButton/hollowButton.component";
-class Category extends Component {
+class CategoryOverlay extends Component {
   state = {};
 
   ToggleSwitch = (status)=>{
@@ -30,6 +30,7 @@ class Category extends Component {
               showText="show"
               hideText="hide"
               cb={this.ToggleSwitch}
+              size="10"
             />
             <HollowButton 
               title="Save"
@@ -42,4 +43,4 @@ class Category extends Component {
   }
 }
 
-export default Category;
+export default CategoryOverlay;

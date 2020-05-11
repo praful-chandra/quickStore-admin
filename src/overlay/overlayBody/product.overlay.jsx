@@ -7,23 +7,29 @@ import TextArea from "../../components/textArea/textArea.component"
 import ToggleSwitch from "../../components/toggleSwitch/toggleSwitch.component";
 import HollowButton from "../../components/hollowButton/hollowButton.component";
 class ProductOverlay extends Component {
-  state = {};
+  state = {
+    item : null
+  };
 
   ToggleSwitch = (status)=>{
     console.log(status);
     
   }
 
+  componentDidMount(){
+    if(this.props.item) this.setState({item : this.props.item}) 
+  }
   render() {
     return (
       <div className="overlay-form">
-        <ImagePreview />
+        <ImagePreview image={this.state.item ? this.state.item.image : ""}/>
         <div className="overlay-horizontalBlock">
           <TextBox
             title="ProductName"
             size="40"
             placeholder="Product name"
             type="text"
+            value={this.state.item ? this.state.item.title : ""}
           />
           <DropDownBox
             label="Category"

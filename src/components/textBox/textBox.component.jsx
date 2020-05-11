@@ -16,6 +16,7 @@ function TextBox  (props){
               value={props.value}
               onChange={props.cb}
               autoComplete="off"
+              disabled={props.disabled ? true : false}
             />
           </div>
         </div>

@@ -8,7 +8,7 @@ class ToggleSwitch extends Component {
     return (
       <div
         className="toggleSwitch-wrapper"
-        style={{ backgroundColor: `${!this.state.status ? "#eeeeee" : ""}` }}
+        style={{ backgroundColor: `${!this.state.status ? "#eeeeee" : ""}` ,width:`${this.props.width ? this.props.width+"rem" : "" }`}}
       >
         <div
           className="toggleSwitch-nibble"

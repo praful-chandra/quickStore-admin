@@ -7,6 +7,7 @@ import TextBox from "../../../components/textBox/textBox.component";
 import CategoryBody from "../../../components/categoryBody/categoryBody.component";
 import ItemCard from "../../../components/itemCard/itemCard.component";
  
+import ProductOverlay from "../../../overlay/overlayBody/product.overlay";
 
 class ProductsScreen extends Component {
   constructor(props) {
@@ -134,7 +135,7 @@ class ProductsScreen extends Component {
           <div className="products-grid">
             
             {
-              this.items.map((item,index)=><ItemCard viewItem={()=>this.props.overlaySelector("View Product")}  key={`Item${index}`} item={item} />)
+              this.items.map((item,index)=><ItemCard viewItem={()=>this.props.overlaySelector(<ProductOverlay item={item} />)}  key={`Item${index}`} item={item} />)
             }
 
           </div>

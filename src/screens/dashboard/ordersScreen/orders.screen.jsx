@@ -9,6 +9,8 @@ import CategorySubHeading from "../../../components/categorySubHeading/categoryS
 import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
+import OrdersOverlay from "../../../overlay/overlayBody/orders.overlay";
+
 class OrdersScreen extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +47,7 @@ class OrdersScreen extends Component {
           />
           <CategorySubBody>
           <CategorySubBodyItem
-            viewItem={()=>{this.props.overlaySelector("view Order")}}
+            viewItem={()=>{this.props.overlaySelector(<OrdersOverlay />)}}
               item={[
                 {
                   item: "Customer 1",

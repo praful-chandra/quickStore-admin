@@ -12,6 +12,8 @@ import CategorySubHeading from "../../../components/categorySubHeading/categoryS
 import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
+import CampaignOverlay from "../../../overlay/overlayBody/campaign.overlay";
+
 class CampaignScreen extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,7 @@ class CampaignScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Campaign" size="28" cb={() => this.props.overlaySelector("Add Campaign")} />
+          <ActionButton title="Add Campaign" size="28" cb={() => this.props.overlaySelector(<CampaignOverlay />)} />
         </CategoryHeader>
 
         <CategoryBody>
@@ -49,7 +51,7 @@ class CampaignScreen extends Component {
           />
           <CategorySubBody>
             <CategorySubBodyItem
-              viewItem={()=>this.props.overlaySelector("View Campaign")}
+              viewItem={()=>this.props.overlaySelector(<CampaignOverlay />)}
               item={[
                 {
                   item: (

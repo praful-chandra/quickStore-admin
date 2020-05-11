@@ -12,6 +12,8 @@ import CategorySubHeading from "../../../components/categorySubHeading/categoryS
 import CategorySubBody from "../../../components/categorySubBody/categorySubBody.componene";
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
+import CouponOverlay from "../../../overlay/overlayBody/coupons.overlay";
+
 class CouponScreen extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,7 @@ class CouponScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Coupon" size="28" cb={() => this.props.overlaySelector("Add Coupon")} />
+          <ActionButton title="Add Coupon" size="28" cb={() => this.props.overlaySelector(<CouponOverlay />)} />
         </CategoryHeader>
 
         <CategoryBody>
