@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-
+import {connect} from "react-redux";
 import TextBox from "../../components/textBox/textBox.component";
 import ActionButton from "../../components/actionButton/actionButton.component";
+
+import {signInUserAsync} from "../../redux/actions/user.actions";
 
 class LoginScreen extends Component {
   state = {
@@ -28,6 +30,7 @@ class LoginScreen extends Component {
               cb={(e) => {
                 this.setState({ email: e.target.value });
               }}
+             
             />
             <TextBox
               title="Password"
@@ -44,9 +47,13 @@ class LoginScreen extends Component {
               title="Login"
               size="19"
               cb={() => {
-                console.log(this.state);
+                this.props.signInUserAsync({email : this.state.email , password : this.state.password})
               }}
             />
+
+{
+  this.props.userError ? <div className="login-content-error">Auth Error</div> : null
+}
           </div>
         </div>
       </div>
@@ -54,4 +61,8 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+const mapStateToProps = state =>({
+  userError : state.user.userError
+})
+
+export default connect(mapStateToProps,{signInUserAsync})(LoginScreen);

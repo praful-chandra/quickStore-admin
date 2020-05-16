@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import NavBar from "../../../components/navbar/navbar.component";
 import LeftBar from "../../../components/leftBar/leftBar.component";
 
@@ -11,13 +11,16 @@ import SalesScreen from "../salesScreen/sales.screen";
 import CouponsScreen from "../couponsScreen/coupon.screen";
 
 import OverlayScreen from "../../../overlay/overlay.screen";
-import OrdersOverlay from "../../../overlay/overlayBody/orders.overlay";
+
+import LoadingScreen from "../../loading/loading.screen";
+
+import {getCategoryAsync} from "../../../redux/actions/category.action";
 
 class DashboardtLayout extends Component {
   state = {
     item: 0,
-    overLayItem:  null,
-    overlay:false,
+    overLayItem: null,
+    overlay: false,
   };
 
   selectContent = (item) => this.setState({ item });
@@ -28,19 +31,19 @@ class DashboardtLayout extends Component {
         return <ProductsScreen overlaySelector={this.switchOverlay} />;
 
       case 1:
-        return <CategoryScreen overlaySelector={this.switchOverlay}  />;
+        return <CategoryScreen overlaySelector={this.switchOverlay} />;
 
       case 2:
-        return <OrdersScreen overlaySelector={this.switchOverlay}  />;
+        return <OrdersScreen overlaySelector={this.switchOverlay} />;
 
       case 3:
-        return <CampaignScreen overlaySelector={this.switchOverlay}  />;
+        return <CampaignScreen overlaySelector={this.switchOverlay} />;
 
       case 4:
-        return <SalesScreen overlaySelector={this.switchOverlay}  />;
+        return <SalesScreen overlaySelector={this.switchOverlay} />;
 
       case 5:
-        return <CouponsScreen overlaySelector={this.switchOverlay}  />;
+        return <CouponsScreen overlaySelector={this.switchOverlay} />;
 
       default:
         return ProductsScreen;
@@ -48,25 +51,40 @@ class DashboardtLayout extends Component {
   };
 
   switchOverlay = (component) => {
-    this.setState({ overLayItem: component ,overlay : component ? true : false});
+    this.setState({
+      overLayItem: component,
+      overlay: component ? true : false,
+    });
   };
 
+  componentDidMount(){
+    this.props.getCategoryAsync()
+  }
+
   render() {
-    return (
+    return this.props.category.categoryLoading ? (
+      <LoadingScreen />
+    ) : (
       <div className="dashboardLayout-wrapper">
         {this.state.overlay ? (
           <OverlayScreen
-            closeOverlay={() => this.setState({ overlay: false,overLayItem :"" })}
+            closeOverlay={() =>
+              this.setState({ overlay: false, overLayItem: "" })
+            }
             component={this.state.overLayItem}
           />
         ) : null}
         <NavBar overlaySelector={this.switchOverlay} />
         <LeftBar cb={this.selectContent} />
 
-        <div className="dashboardLayout-content" >{this.renderContent()}</div>
+        <div className="dashboardLayout-content">{this.renderContent()}</div>
       </div>
     );
   }
 }
 
-export default DashboardtLayout;
+const mapStateToProps = (state) => ({
+  category: state.category,
+});
+
+export default connect(mapStateToProps,{getCategoryAsync})(DashboardtLayout);

@@ -1,6 +1,8 @@
 import React from "react";
+import {connect} from "react-redux";
 
 import ActionButton from "../actionButton/actionButton.component";
+
 
 //import overlay for products
 import ProductOverlay from "../../overlay/overlayBody/product.overlay";
@@ -20,11 +22,15 @@ function NavBar(props) {
                 />
             </div>
             <div className="navBar-profile">
-                Admin
+                {props.admin.userName}
             </div>
             </div>
         </div>
     );
 }
 
-export default NavBar;
+const mapStateToProps = state =>({
+    admin : state.user.user.admin
+})
+
+export default connect(mapStateToProps)(NavBar);

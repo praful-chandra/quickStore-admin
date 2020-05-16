@@ -20,5 +20,21 @@
         color: $darkGrey;
         font-family: "Bahnschrift Regular";
         padding: 2rem;
+
+        &:-internal-autofill-selected{
+            background-color: transparent;
+        }
+    }
+
+    &-submit{
+        height: 7.5rem;
+        background-color: $backgroundColor;
+        outline: none;
+        border: none;
+        color: $primaryColor;
+        cursor: pointer;
+        margin-left: 1rem;
+        transform: translatey(-0.3rem);
+        padding: 1rem;
     }
 }

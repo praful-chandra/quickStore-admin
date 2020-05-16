@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilRuler, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
+import {connect} from "react-redux";
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
 import ActionButton from "../../../components/actionButton/actionButton.component";
+
+import _imageEncode from "../../../components/utils/encodeImage";
 
 import CategoryBody from "../../../components/categoryBody/categoryBody.component";
 import CategorySubHeading from "../../../components/categorySubHeading/categorySubHeading.component";
@@ -51,36 +53,40 @@ class CategoryScreen extends Component {
             ]}
           />
           <CategorySubBody>
-            <CategorySubBodyItem
-            viewItem={()=>this.props.overlaySelector("View Category")}
+          {
+            this.props.category.map(category=>(
+              <CategorySubBodyItem
+              key={category._id}
               item={[
                 {
                   item: (
                     <img
-                      src={`${require("../../../Assets/images/red-beanie.png")}`}
+                      src={`${_imageEncode(category.image.data)}`}
                       alt="productItm"
                     />
                   ),
                   size: 10,
                 },
                 {
-                  item: "Brown Bin Hat",
+                  item: category.name,
                   size: 50,
                 },
                 {
-                  item: 150,
+                  item: category.Products.length,
                   size: 20,
                 },
                 {
-                  item: <FontAwesomeIcon icon={faPencilRuler} />,
+                  item: <FontAwesomeIcon className="pointer" icon={faPencilRuler} onClick={()=>this.props.overlaySelector("View Category")}/>,
                   size: 10,
                 },
                 {
-                  item: <FontAwesomeIcon icon={faTrashAlt} />,
+                  item: <FontAwesomeIcon className="pointer" icon={faTrashAlt} />,
                   size: 10,
                 },
               ]}
             />
+            ))
+          }
           </CategorySubBody>
         </CategoryBody>
       </div>
@@ -88,4 +94,8 @@ class CategoryScreen extends Component {
   }
 }
 
-export default CategoryScreen;
+const mapStateToProps = state =>({
+  category : state.category.category
+})
+
+export default connect(mapStateToProps)(CategoryScreen);

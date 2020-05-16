@@ -1,4 +1,6 @@
 import React from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 function TextBox  (props){
     return (
@@ -11,6 +13,7 @@ function TextBox  (props){
               type={props.type}
               style={{
                 width: `${props.size ? props.size : "30rem"}rem`,
+                ...props.style
               }}
               placeholder={props.placeholder}
               value={props.value}
@@ -18,6 +21,7 @@ function TextBox  (props){
               autoComplete="off"
               disabled={props.disabled ? true : false}
             />
+          {props.search ? <button className="textBox-submit" onClick={props.search}><FontAwesomeIcon icon={faSearch} /></button> : null}  
           </div>
         </div>
       );

@@ -1,24 +1,41 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import { connect } from "react-redux";
 import "./sass/Index.scss";
 
 import DashboardLayout from "./screens/dashboard/layout/layout.screen";
 
 import LoginScreen from "./screens/LoginScreen/login.screen";
 
-function App() {
+import {signInIfAlreadySigned} from "./redux/actions/user.actions";
+
+function App(props) {
+
+  const signInIfAlreadySigned = props.signInIfAlreadySigned;
+
+  useEffect(()=>{
+    signInIfAlreadySigned();
+  },[signInIfAlreadySigned])
+
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route exact path="/login" component={LoginScreen} />
-          <Route exact path="/" component={DashboardLayout} />
-
+          <Route
+            exact
+            path="/"
+            render={() =>
+              props.user  ? <DashboardLayout /> : <LoginScreen />
+            }
+          />
         </Switch>
       </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+export default connect(mapStateToProps,{signInIfAlreadySigned})(App);
