@@ -11,8 +11,8 @@ import {signInIfAlreadySigned} from "./redux/actions/user.actions";
 
 function App(props) {
 
+  //Login if there exists a token in local storage
   const signInIfAlreadySigned = props.signInIfAlreadySigned;
-
   useEffect(()=>{
     signInIfAlreadySigned();
   },[signInIfAlreadySigned])

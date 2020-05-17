@@ -1,25 +1,30 @@
+//dependency import
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowCircleUp,
   faArrowCircleDown,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { getProductsAsync } from "../../../redux/actions/products.actions";
-import { getCategoryAsync } from "../../../redux/actions/category.action";
+//loading screen
 import LoadingScreen from "../../loading/loading.screen";
 
+//components
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
-
 import CategoryBody from "../../../components/categoryBody/categoryBody.component";
 import ItemCard from "../../../components/itemCard/itemCard.component";
-
-import ProductOverlay from "../../../overlay/overlayBody/product.overlay";
 import ActionButton from "../../../components/actionButton/actionButton.component";
+import HollowButton from "../../../components/hollowButton/hollowButton.component";
+
+//overlay
+import ProductOverlay from "../../../overlay/overlayBody/product.overlay";
+
+//actions
+import { getProductsAsync } from "../../../redux/actions/products.actions";
+import { getCategoryAsync } from "../../../redux/actions/category.action";
 
 class ProductsScreen extends Component {
   constructor(props) {
@@ -29,20 +34,22 @@ class ProductsScreen extends Component {
       category: "View All",
       sort: "createdAt",
       sortDirection: true,
+      loaded: 0,
     };
   }
 
   componentDidMount() {
-    if (this.props.products.products.length <= 0) this.productFilters();
-    // if(!this.props.category.categoryFetched) this.props.getCategoryAsync();
+    //fetch all products only if already not fetched
+    if (!this.props.products.init) this.productFilters();
   }
 
   categoryFilter = (filter) => {
     this.setState(
       {
         category: filter,
+        loaded: 0,
       },
-      () => this.productFilters()
+      () => this.productFilters(true)
     );
   };
 
@@ -51,15 +58,15 @@ class ProductsScreen extends Component {
       {
         sort: filter,
       },
-      () => this.productFilters()
+      () => this.productFilters(true)
     );
   };
 
   searchFilter = () => {
-    this.productFilters();
+    this.productFilters(true);
   };
 
-  productFilters = () => {
+  productFilters = (neww) => {
     const categoryId = this.state.category;
     const search = this.state.search;
 
@@ -71,7 +78,13 @@ class ProductsScreen extends Component {
 
     const sort = { [this.state.sort]: this.state.sortDirection ? 1 : -1 };
 
-    this.props.getProductsAsync({ only, sort });
+    const limit = 2;
+    const skip = this.state.loaded * 2;
+
+    this.props.getProductsAsync(
+      { only, sort, skip, limit },
+      neww ? true : false
+    );
   };
 
   render() {
@@ -115,7 +128,7 @@ class ProductsScreen extends Component {
               cb={() =>
                 this.setState(
                   { sortDirection: !this.state.sortDirection },
-                  () => this.productFilters()
+                  () => this.productFilters(true)
                 )
               }
             />
@@ -146,6 +159,23 @@ class ProductsScreen extends Component {
                 ))}
               </div>
             )}
+            <div className="products-loadmore">
+              {this.props.products.products.length <
+              this.props.products.totalCount ? (
+                <HollowButton
+                  title="load more "
+                  size="30"
+                  cb={() => {
+                    this.setState(
+                      {
+                        loaded: this.state.loaded + 1,
+                      },
+                      () => this.productFilters()
+                    );
+                  }}
+                />
+              ) : null}
+            </div>
           </CategoryBody>
         </span>
       </div>

@@ -25,10 +25,7 @@ const setaxiosHeader = (token) => {
 
 };
 
-// const userErrorErase = () => ({
-//   type: USER_ACTIONS.USER_ERROR_ERASE,
-// });
-
+// Login with emailId and password from loginScreen
 export const signInUserAsync = (userCred) => async (dispatch) => {
   dispatch(loadUser());
   try {
@@ -44,6 +41,7 @@ export const signInUserAsync = (userCred) => async (dispatch) => {
   }
 };
 
+//login with JWTToken from localstorage
 export const signInIfAlreadySigned = () => async (dispatch) => {
   const token = localStorage.getItem("token");
   setaxiosHeader(token);

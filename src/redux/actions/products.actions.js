@@ -19,13 +19,19 @@ const editProducts = (product) => ({
   payload: product,
 });
 
-export const getProductsAsync = (options) => async (dispatch) => {
+const createProduct = newProduct =>({
+  type : PRODUCTS_ACTION.CREATE_PRODUCT,
+  payload : newProduct
+})
+
+export const getProductsAsync = (options,neww) => async (dispatch) => {
   dispatch(loadProducts());
 
   try {
     const products = await axios.post("/api/admin/get/allproducts", options);
+console.log(products);
 
-    dispatch(getProducts(products.data));
+    dispatch(getProducts({items : products.data.products ,totalCount :products.data.totalCount , neww  }));
   } catch (err) {
     // console.log(err.response);
   } finally {
@@ -50,3 +56,21 @@ export const editProductAsync = (data,raw) => async (dispatch) => {
     dispatch(loadProductsDone());
   }
 };
+
+export const createProductAsync = (data,raw) => async dispatch =>{
+  dispatch(loadProducts());
+
+  try {
+    const newProduct = await axios.post("/api/admin/shop/addProduct", data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+
+    dispatch(createProduct({...raw,_id : Math.random() * 50}));
+  } catch (err) {
+    alert(err.response.data.error);
+  } finally {
+    dispatch(loadProductsDone());
+  }
+}

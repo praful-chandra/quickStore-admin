@@ -18,7 +18,7 @@ function NavBar(props) {
                 <ActionButton 
                     title="Add products"
                     size="19"
-                    cb={()=>props.overlaySelector(<ProductOverlay />)}
+                    cb={()=>props.overlaySelector(<ProductOverlay new={true}/>)}
                 />
             </div>
             <div className="navBar-profile">
