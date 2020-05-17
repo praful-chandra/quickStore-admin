@@ -18,7 +18,7 @@ function TextArea  (props){
               onChange={props.cb}
               autoComplete="off"
               disabled={props.disabled ? true : false}
-
+              name={props.name || ""}
             >
             </textarea>
           </div>

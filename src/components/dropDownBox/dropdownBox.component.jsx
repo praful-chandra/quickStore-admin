@@ -9,7 +9,7 @@ class DropDownBox extends Component {
         <div className="dropDownBox-label">{label}</div>
         <select name="category" className="dropDownBox-select" style={{width : `${this.props.size ? this.props.size+"rem" : ""}`}} onChange={(e)=>cb(e.target.value)} value={value}>
           {options.map((opt, key) => (
-            <option value={opt._id} key={key}>{opt.name}</option>
+            <option value={opt.value} key={key}>{opt.name}</option>
           ))}
         </select>
       </div>

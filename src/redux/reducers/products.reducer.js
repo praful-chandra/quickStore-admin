@@ -1,5 +1,7 @@
 import {PRODUCTS_ACTION} from "../actions/action.types"
 
+import {editProduct} from "../utils/product.util"
+
 const INITIAL_STATE = {
    products : [],
    productsLoading : false
@@ -23,6 +25,10 @@ const ProductReducer = (state = INITIAL_STATE , action)=>{
         case PRODUCTS_ACTION.GET_PRODUCTS : return{
             ...state,
             products : action.payload
+        }
+        case PRODUCTS_ACTION.EDIT_PRODUCT : return{
+            ...state,
+            products : editProduct(state.products,action.payload)
         }
 
         default : return state

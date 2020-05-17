@@ -1,25 +1,23 @@
 import React, { Component } from "react";
 
 class ToggleSwitch extends Component {
-  state = {
-    status: false,
-  };
+
   render() {
     return (
       <div
         className="toggleSwitch-wrapper"
-        style={{ backgroundColor: `${!this.state.status ? "#eeeeee" : ""}` ,width:`${this.props.width ? this.props.width+"rem" : "" }`}}
+        style={{ backgroundColor: `${!this.props.value ? "#eeeeee" : ""}` ,width:`${this.props.width ? this.props.width+"rem" : "" }`}}
       >
         <div
           className="toggleSwitch-nibble"
-          style={{ float: `${this.state.status ? "left" : "right"}` }}
-          onClick={() => {this.setState({ status: !this.state.status }); this.props.cb(!this.state.status)}}
+          style={{ float: `${this.props.value ? "left" : "right"}` }}
+          onClick={() => {this.setState({ status: !this.props.value }); this.props.cb(!this.props.value)}}
         ></div>
         <div
           className="toggleSwitch-text"
-          style={{ color: `${this.state.status ? "#fff" : ""}` }}
+          style={{ color: `${this.props.value ? "#fff" : ""}` }}
         >
-          {this.state.status ? this.props.showText.slice(0, 4) : this.props.hideText.slice(0, 4)}
+          {this.props.value ? this.props.showText.slice(0, 4) : this.props.hideText.slice(0, 4)}
         </div>
       </div>
     );

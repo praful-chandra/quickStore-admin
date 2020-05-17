@@ -21,7 +21,7 @@ function ImagePreview(props) {
         <FontAwesomeIcon icon={faPencilAlt} />
       </div>
       </label>
-      <input type="file" name="image" id="image" style={{display:"none"}}/>
+      <input type="file" name="image" id="image" style={{display:"none"}} onChange={props.cb}/>
 
     </div>
   );

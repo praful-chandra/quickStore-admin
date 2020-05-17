@@ -20,6 +20,7 @@ function TextBox  (props){
               onChange={props.cb}
               autoComplete="off"
               disabled={props.disabled ? true : false}
+              name={props.name || ""}
             />
           {props.search ? <button className="textBox-submit" onClick={props.search}><FontAwesomeIcon icon={faSearch} /></button> : null}  
           </div>

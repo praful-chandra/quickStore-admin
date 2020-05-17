@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowCircleUp,
+  faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { getProductsAsync } from "../../../redux/actions/products.actions";
-import {getCategoryAsync} from "../../../redux/actions/category.action";
+import { getCategoryAsync } from "../../../redux/actions/category.action";
 import LoadingScreen from "../../loading/loading.screen";
 
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
@@ -13,6 +19,7 @@ import CategoryBody from "../../../components/categoryBody/categoryBody.componen
 import ItemCard from "../../../components/itemCard/itemCard.component";
 
 import ProductOverlay from "../../../overlay/overlayBody/product.overlay";
+import ActionButton from "../../../components/actionButton/actionButton.component";
 
 class ProductsScreen extends Component {
   constructor(props) {
@@ -20,11 +27,13 @@ class ProductsScreen extends Component {
     this.state = {
       search: "",
       category: "View All",
+      sort: "createdAt",
+      sortDirection: true,
     };
   }
 
   componentDidMount() {
-    if (this.props.products.products.length <= 0) this.props.getProductsAsync();
+    if (this.props.products.products.length <= 0) this.productFilters();
     // if(!this.props.category.categoryFetched) this.props.getCategoryAsync();
   }
 
@@ -33,7 +42,16 @@ class ProductsScreen extends Component {
       {
         category: filter,
       },
-     ()=> this.productFilters()
+      () => this.productFilters()
+    );
+  };
+
+  sortFilter = (filter) => {
+    this.setState(
+      {
+        sort: filter,
+      },
+      () => this.productFilters()
     );
   };
 
@@ -51,7 +69,9 @@ class ProductsScreen extends Component {
       only["categoryId"] = categoryId;
     }
 
-    this.props.getProductsAsync({ only });
+    const sort = { [this.state.sort]: this.state.sortDirection ? 1 : -1 };
+
+    this.props.getProductsAsync({ only, sort });
   };
 
   render() {
@@ -62,8 +82,11 @@ class ProductsScreen extends Component {
             <DropDownBox
               label="Category"
               options={[
-                { name: "View All", value: false },
-                ...this.props.category.map((cate) => cate),
+                { name: "View All", value: "View All" },
+                ...this.props.category.map((cate) => ({
+                  name: cate.name,
+                  value: cate._id,
+                })),
               ]}
               cb={this.categoryFilter}
               value={this.state.category}
@@ -71,13 +94,31 @@ class ProductsScreen extends Component {
             <DropDownBox
               label="Sort By"
               options={[
-                "select One",
-                "name",
-                "creation Date",
-                "Number of items",
+                { name: "date", value: "createdAt" },
+                { name: "name", value: "name" },
+                { name: "price", value: "price" },
               ]}
+              cb={this.sortFilter}
+              value={this.state.sort}
             />
-
+            <ActionButton
+              title={
+                <FontAwesomeIcon
+                  icon={
+                    this.state.sortDirection
+                      ? faArrowCircleUp
+                      : faArrowCircleDown
+                  }
+                />
+              }
+              size="3"
+              cb={() =>
+                this.setState(
+                  { sortDirection: !this.state.sortDirection },
+                  () => this.productFilters()
+                )
+              }
+            />
             <TextBox
               title="Search"
               type="search"
@@ -118,4 +159,6 @@ const mapStateToProps = (state) => ({
   category: state.category.category,
 });
 
-export default connect(mapStateToProps, { getProductsAsync,getCategoryAsync })(ProductsScreen);
+export default connect(mapStateToProps, { getProductsAsync, getCategoryAsync })(
+  ProductsScreen
+);
