@@ -64,6 +64,7 @@ class DashboardtLayout extends Component {
   };
 
   componentDidMount() {
+    if(!this.props.category.init)
     this.props.getCategoryAsync();
   }
 

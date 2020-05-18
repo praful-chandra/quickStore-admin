@@ -62,8 +62,11 @@ class ProductsScreen extends Component {
     );
   };
 
-  searchFilter = () => {
-    this.productFilters(true);
+  searchFilter = (search) => {
+
+    this.setState({
+      search : search.value
+    },()=>    this.productFilters(true))
   };
 
   productFilters = (neww) => {
@@ -78,8 +81,8 @@ class ProductsScreen extends Component {
 
     const sort = { [this.state.sort]: this.state.sortDirection ? 1 : -1 };
 
-    const limit = 2;
-    const skip = this.state.loaded * 2;
+    const limit = 15;
+    const skip = this.state.loaded * 15;
 
     this.props.getProductsAsync(
       { only, sort, skip, limit },
@@ -138,8 +141,7 @@ class ProductsScreen extends Component {
               size="51"
               placeholder="Try hats"
               value={this.state.search}
-              cb={(e) => this.setState({ search: e.target.value })}
-              search={this.searchFilter}
+              cb={this.searchFilter}
             />
           </CategoryHeader>
 

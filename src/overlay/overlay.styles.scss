@@ -65,6 +65,7 @@
   }
 
   &-form {
+    @include flexer-vertical-totalCenter();
     &-title {
       text-align: center;
       font-size: 2.8rem;
@@ -73,8 +74,7 @@
       margin-bottom: 2rem;
     }
     height: 100%;
-    & div {
-    }
+
     &-left {
       width: 60%;
       height: 100%;

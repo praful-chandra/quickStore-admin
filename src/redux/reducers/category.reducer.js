@@ -3,7 +3,8 @@ import {CATEGORY_ACTION} from "../actions/action.types"
 const INITIAL_STATE = {
    category : [],
    categoryLoading : false,
-   categoryFetched : false
+   categoryFetched : false,
+   init : false
 }
 
 const CategoryReducer = (state = INITIAL_STATE , action)=>{
@@ -13,7 +14,8 @@ const CategoryReducer = (state = INITIAL_STATE , action)=>{
 
         case CATEGORY_ACTION.CATEGORY_LOADING : return{
             ...state,
-            categoryLoading : true
+            categoryLoading : true,
+            init : true
         }
 
         case CATEGORY_ACTION.CATEGORY_LOADING_DONE : return{

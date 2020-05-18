@@ -10,7 +10,7 @@ export const editProduct = (allProducts,updatedProduct) =>{
 export const addProduct = (allProducts,newProduct)=>{
 
 
-    allProducts = allProducts.push(newProduct);
+    allProducts = [...allProducts,{...newProduct}];
 
     
 

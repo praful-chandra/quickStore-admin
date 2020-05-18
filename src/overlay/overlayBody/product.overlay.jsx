@@ -55,7 +55,7 @@ class ProductOverlay extends Component {
     this.setState({
       item: {
         ...this.state.item,
-        [e.target.name]: e.target.value,
+        [e.name]: e.value,
       },
     });
   };
@@ -124,7 +124,6 @@ class ProductOverlay extends Component {
       ...this.state.item,
       image : this.state.imageToPreview
     }
-    console.log(this.state.item);
     
     this.props.createProductAsync(formData,rawData);
     
@@ -136,6 +135,7 @@ class ProductOverlay extends Component {
         <ImagePreview
           image={this.state.imageToPreview ? this.state.imageToPreview : "" }
           cb={this.imageSelector}
+          size="32"
         />
         <div className="overlay-horizontalBlock">
           <TextBox
