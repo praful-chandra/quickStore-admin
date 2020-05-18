@@ -16,6 +16,11 @@ import {CATEGORY_ACTION} from "./action.types";
     payload : Category
 })
 
+const addCategory = category =>({
+    type : CATEGORY_ACTION.CREATE_CATEGORY,
+    payload : category
+})
+
 export const getCategoryAsync = (options)=> async dispatch=>{
     dispatch(loadCategory());
     
@@ -35,5 +40,27 @@ export const getCategoryAsync = (options)=> async dispatch=>{
 
    }
 
+
+}
+
+export const addCategoryAsync = (newCategory,raw)=> async dispatch =>{
+    dispatch(loadCategory());
+
+    try{
+
+         await axios.post("/api/admin/shop/addCategory",newCategory)
+        const newCategoryRaw = { ...raw, _id: Math.random() * 50 , Products : [] }
+
+        dispatch(addCategory(newCategoryRaw));
+    
+       }
+       catch(err){
+        // console.log(err.response);
+        
+       }
+       finally{
+        dispatch(loadCategoryDone())
+    
+       }
 
 }

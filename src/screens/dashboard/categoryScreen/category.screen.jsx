@@ -39,14 +39,14 @@ class CategoryScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Category" size="28" cb={() =>this.props.overlaySelector(<CategoryOverlay />)} />
+          <ActionButton title="Add Category" size="28" cb={() =>this.props.overlaySelector(<CategoryOverlay new={true} />)} />
         </CategoryHeader>
 
         <CategoryBody>
           <CategorySubHeading
             items={[
-              { title: "image", size: 10 },
-              { title: "name", size: 50 },
+              { title: "image", size: 25 },
+              { title: "name", size: 35 },
               { title: "itemCount", size: 20 },
               { title: "edit", size: 10 },
               { title: "Remove", size: 10 },
@@ -65,18 +65,18 @@ class CategoryScreen extends Component {
                       alt="productItm"
                     />
                   ),
-                  size: 10,
+                  size: 25,
                 },
                 {
                   item: category.name,
-                  size: 50,
+                  size: 35,
                 },
                 {
                   item: category.Products.length,
                   size: 20,
                 },
                 {
-                  item: <FontAwesomeIcon className="pointer" icon={faPencilRuler} onClick={()=>this.props.overlaySelector("View Category")}/>,
+                  item: <FontAwesomeIcon className="pointer" icon={faPencilRuler} onClick={()=>this.props.overlaySelector(<CategoryOverlay item={category} />)}/>,
                   size: 10,
                 },
                 {
