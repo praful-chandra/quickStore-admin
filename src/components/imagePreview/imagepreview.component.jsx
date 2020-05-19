@@ -2,7 +2,6 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 
-import _imageEncode from "../utils/encodeImage";
 
 
 function ImagePreview(props) {
@@ -11,7 +10,7 @@ function ImagePreview(props) {
     <div
       className="imagePreview"
       style={{
-        backgroundImage: `url(${_imageEncode(image.data)})`,
+        backgroundImage: `url(${image})`,
         width: `${size ? size + "rem" : "100%"}`,
       }}
     >

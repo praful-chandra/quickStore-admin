@@ -21,6 +21,11 @@ const addCategory = category =>({
     payload : category
 })
 
+const updateCategory = category =>({
+    type : CATEGORY_ACTION.EDIT_CATEGORY,
+    payload : category
+})
+
 export const getCategoryAsync = (options)=> async dispatch=>{
     dispatch(loadCategory());
     
@@ -62,5 +67,28 @@ export const addCategoryAsync = (newCategory,raw)=> async dispatch =>{
         dispatch(loadCategoryDone())
     
        }
+
+}
+
+export const updateCategoryAsync = (updatedCategory,raw) => async dispatch =>{
+
+    dispatch(loadCategory())
+
+    try{
+
+        await axios.patch("/api/admin/shop/updatecategory",updatedCategory)
+
+
+       dispatch(updateCategory(raw));
+   
+      }
+      catch(err){
+       // console.log(err.response);
+       
+      }
+      finally{
+       dispatch(loadCategoryDone())
+   
+      }
 
 }

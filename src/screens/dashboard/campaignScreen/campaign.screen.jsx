@@ -35,7 +35,7 @@ class CampaignScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-          <ActionButton title="Add Campaign" size="28" cb={() => this.props.overlaySelector(<CampaignOverlay />)} />
+          <ActionButton title="Add Campaign" size="28" cb={() => this.props.overlaySelector(<CampaignOverlay neww={true}/>)} />
         </CategoryHeader>
 
         <CategoryBody>

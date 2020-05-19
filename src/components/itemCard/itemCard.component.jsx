@@ -1,6 +1,5 @@
 import React from "react";
 
-import _imageEncode from "../utils/encodeImage";
 
 function ItemCard(props) {
   const { image, name, quantity, price } = props.item;
@@ -9,7 +8,7 @@ function ItemCard(props) {
 
   return (
     <div className="itemCard-wrapper" onClick={props.viewItem}>
-      <div className="itemCard-image" style={{ backgroundImage: `url(${_imageEncode(image.data)})` }}>
+      <div className="itemCard-image" style={{ backgroundImage: `url(${image})` }}>
       </div>
       <div className="itemCard-info">
         <div className="itemCard-info-title">{name}</div>

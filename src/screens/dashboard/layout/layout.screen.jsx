@@ -16,23 +16,21 @@ import CampaignScreen from "../campaignScreen/campaign.screen";
 import SalesScreen from "../salesScreen/sales.screen";
 import CouponsScreen from "../couponsScreen/coupon.screen";
 import OverlayScreen from "../../../overlay/overlay.screen";
-import LoadingScreen from "../../loading/loading.screen";
 
 //Actions import
 import { getCategoryAsync } from "../../../redux/actions/category.action";
 
-class DashboardtLayout extends Component {
-  state = {
-    item: 0,
-    overLayItem: null,
-    overlay: false,
-  };
+import {
+  showOverlay,
+  hideOverlay,
+} from "../../../redux/actions/overlay.action";
 
-  selectContent = (item) => this.setState({ item });
+class DashboardtLayout extends Component {
+
 
   //changes the main screen based upn option selected from leftBar component
   renderContent = () => {
-    switch (this.state.item) {
+    switch (this.props.leftBar.tab) {
       case 0:
         return <ProductsScreen overlaySelector={this.switchOverlay} />;
 
@@ -57,33 +55,25 @@ class DashboardtLayout extends Component {
   };
 
   switchOverlay = (component) => {
-    this.setState({
-      overLayItem: component,
-      overlay: component ? true : false,
-    });
+    this.props.showOverlay(component);
   };
 
   componentDidMount() {
-    if(!this.props.category.init)
-    this.props.getCategoryAsync();
+    if (!this.props.category.init) this.props.getCategoryAsync();
   }
 
   render() {
-    return this.props.category.categoryLoading ? (
-      <LoadingScreen />
-    ) : (
+    return  (
       //Displays the pop-up component
       <div className="dashboardLayout-wrapper">
-        {this.state.overlay ? (
+        {this.props.overlay.overlay ? (
           <OverlayScreen
-            closeOverlay={() =>
-              this.setState({ overlay: false, overLayItem: "" })
-            }
-            component={this.state.overLayItem}
+            closeOverlay={() => this.props.hideOverlay()}
+            component={this.props.overlay.overayContent}
           />
         ) : null}
         <NavBar overlaySelector={this.switchOverlay} />
-        <LeftBar cb={this.selectContent} />
+        <LeftBar />
 
         {/* Main component */}
         <div className="dashboardLayout-content">{this.renderContent()}</div>
@@ -94,6 +84,12 @@ class DashboardtLayout extends Component {
 
 const mapStateToProps = (state) => ({
   category: state.category,
+  overlay: state.overlay,
+  leftBar : state.leftBar
 });
 
-export default connect(mapStateToProps, { getCategoryAsync })(DashboardtLayout);
+export default connect(mapStateToProps, {
+  getCategoryAsync,
+  showOverlay,
+  hideOverlay,
+})(DashboardtLayout);

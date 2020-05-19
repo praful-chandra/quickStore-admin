@@ -1,0 +1,66 @@
+.ProductSelectorOverlay{
+    &-wrapper{
+        position: absolute;
+        z-index: 9999;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.102);
+        @include  flexer-vertical-totalCenter();
+    }
+    &-close {
+        font-size: 3rem;
+        display: inline-block;
+        position: absolute;
+        right: 3rem;
+        top: 3rem;
+        background-color: $primaryColor;
+        width: 4rem;
+        height: 4rem;
+        color: $white;
+        text-align: center;
+        border-radius: 10px;
+        font-family: "Righteous", cursive;
+        cursor: pointer;
+      }
+
+    &-body{
+        position: relative;
+        width: 80%;
+        height: 80%;
+        background-color: $white;
+        overflow: scroll;
+
+    }
+
+    &-content{
+        @include  flexer-vertical-totalCenter();
+
+        &-itemsList{
+            width: 80%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(20rem,1fr));
+            grid-gap:1rem ;
+        &-item{
+            border: 1px solid;
+            @include  flexer-horizontal-spaceevenly();
+            font-size: 2rem;
+            color : $text-color;
+            height: 7rem;
+            cursor: pointer;
+            transition: all 0.2s linear;
+            &:hover{
+                color: $primaryColor;
+                font-weight: bolder;
+            }
+
+            &-selected{
+                color: $white;
+                background-color: $primaryColor;
+            }
+        }
+        }
+
+
+    }
+}

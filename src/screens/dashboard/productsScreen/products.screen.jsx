@@ -146,7 +146,7 @@ class ProductsScreen extends Component {
           </CategoryHeader>
 
           <CategoryBody>
-            {this.props.products.productsLoading ? (
+            {this.props.products.productsLoading || this.props.category.categoryLoading? (
               <LoadingScreen />
             ) : (
               <div className="products-grid">
@@ -194,3 +194,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, { getProductsAsync, getCategoryAsync })(
   ProductsScreen
 );
+ 

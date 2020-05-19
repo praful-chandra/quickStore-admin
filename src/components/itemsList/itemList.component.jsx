@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import ItemsListItem from "./itemsList-item.component";
 
 class ItemsList extends Component {
-    state = { 
-        itemCount:50
-     }
 
-     renderItems = ()=>{
-         const result = [];
+  renderItems = () => {
+    const result = [];
 
-         for(let i=0;i<this.state.itemCount;i++)
-            result.push(<ItemsListItem />)
+    this.props.items.map((item) => result.push(<ItemsListItem item={item}/>));
 
-        return result;
-     }
+    return result;
+  };
 
-    render() {
-        return (
-            <div className="itemsList-wrapper">
-                <div className="itemsList-title">{this.props.title} </div>
-                <div className="itemsList-body">
+  render() {
+    return (
+      <div className="itemsList-wrapper">
+        <div className="itemsList-title">{this.props.title} </div>
+        <div className="itemsList-body">{this.renderItems()}</div>
 
-             {
-                this.renderItems()
-             }
-
-                </div>
-
-              {
-                  this.props.additems ?   <div className="itemsList-addBtn" onClick={()=>this.setState({itemCount : this.state.itemCount+1})}>
-                    +
-                </div> : null
-              }
-            </div>
-        );
-    }
+        {this.props.additems ? (
+          <div
+            className="itemsList-addBtn"
+            onClick={this.props.cb}
+          >
+            +
+          </div>
+        ) : null}
+      </div>
+    );
+  }
 }
 
 export default ItemsList;

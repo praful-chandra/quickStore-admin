@@ -16,7 +16,7 @@ function TextBox(props) {
     <div className="textBox-wrapper">
       {props.title ? <div className="textBox-label">{props.title}</div> : null}
       <div className="textBox-input">
-        <form onBlur={handelSubmit} >
+        <form onBlur={handelSubmit} onSubmit={handelSubmit}>
           <input
             type={props.type}
             style={{

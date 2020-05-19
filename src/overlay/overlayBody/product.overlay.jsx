@@ -9,6 +9,7 @@ import ToggleSwitch from "../../components/toggleSwitch/toggleSwitch.component";
 import HollowButton from "../../components/hollowButton/hollowButton.component";
 
 import { editProductAsync , createProductAsync } from "../../redux/actions/products.actions";
+import {hideOverlay} from "../../redux/actions/overlay.action";
 class ProductOverlay extends Component {
   state = {
     item: {
@@ -64,21 +65,13 @@ class ProductOverlay extends Component {
     //converts the image selected to binary form and added to imageToPreview state
     //attached the raw image to item for sending to server
     let image = e.target.files[0];
-    const that = this;
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-      var data = event.target.result;
-
-      that.setState({
-        imageToPreview: { data },
-        item: {
-          ...that.state.item,
-          image,
-        },
-      });
-    };
-    reader.readAsArrayBuffer(image);
+    this.setState({
+      imageToPreview: URL.createObjectURL(image),
+      item: {
+        ...this.state.item,
+        image,
+      },
+    });
   };
 
   updateProduct = () => {
@@ -101,6 +94,7 @@ class ProductOverlay extends Component {
     }
 
     this.props.editProductAsync(formData,rawData);
+    this.props.hideOverlay();
   };
 
   createProduct = ()=>{
@@ -126,10 +120,12 @@ class ProductOverlay extends Component {
     }
     
     this.props.createProductAsync(formData,rawData);
+    this.props.hideOverlay();
     
   }
 
   render() {
+    
     return (
       <div className="overlay-form">
         <ImagePreview
@@ -218,4 +214,4 @@ const mapSateToProps = (state) => ({
   category: state.category.category,
 });
 
-export default connect(mapSateToProps, { editProductAsync,createProductAsync })(ProductOverlay);
+export default connect(mapSateToProps, { editProductAsync,createProductAsync,hideOverlay})(ProductOverlay);

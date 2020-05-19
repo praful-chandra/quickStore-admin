@@ -44,6 +44,16 @@ export const getProductsAsync = (options, neww) => async (dispatch) => {
   }
 };
 
+export const getProductsWithoutRedux =  (options) => async dispatch => {
+  try {
+    const products = await axios.post("/api/admin/get/allproducts", options);
+    
+    return products.data.products;
+  } catch (err) {
+    alert("error occured, contact supervisor");
+  }
+};
+
 export const editProductAsync = (data, raw) => async (dispatch) => {
   dispatch(loadProducts());
 
@@ -72,7 +82,7 @@ export const createProductAsync = (data, raw) => async (dispatch) => {
       },
     });
 
-    const newProductRaw = { ...raw, _id: Math.random() * 50 }
+    const newProductRaw = { ...raw, _id: Math.random() * 50 };
     dispatch(createProduct(newProductRaw));
   } catch (err) {
     alert(err.response.data.error);

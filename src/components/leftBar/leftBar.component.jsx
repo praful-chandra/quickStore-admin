@@ -9,10 +9,10 @@ import {
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
+import {connect} from "react-redux";
+import {switchTab} from "../../redux/actions/leftBar.action";
+
 class LeftBar extends Component {
-  state = {
-    active: 0,
-  };
 
   items = [
     {
@@ -42,14 +42,9 @@ class LeftBar extends Component {
   ];
 
   handleSelect = (index) => {
-    this.setState({
-      active: index,
-    });
+    this.props.switchTab(index);
   };
 
-  componentDidMount(){
-    this.props.cb(this.state.active);
-  }
 
   render() {
     return (
@@ -61,11 +56,10 @@ class LeftBar extends Component {
             <div
             key={index}
               className={`leftBar-item ${
-                index === this.state.active ? "leftBar-active" : ""
+                index === this.props.tab ? "leftBar-active" : ""
               }`}
               onClick={() =>{
                 this.handleSelect(index)
-                this.props.cb(index)
               }}
             >
               <span className="leftBar-item-icon">
@@ -82,4 +76,9 @@ class LeftBar extends Component {
   }
 }
 
-export default LeftBar;
+const mapStateToProps = state =>({
+  tab : state.leftBar.tab
+})
+
+
+export default connect(mapStateToProps,{switchTab})(LeftBar);

@@ -4,6 +4,20 @@
     justify-content: space-between;
 }
 
+@mixin flexer-horizontal-spaceevenly {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+
+@mixin flexer-vertical-spacebetween {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
 @mixin flexer-vertical-totalCenter {
     display: flex;
     flex-direction: column;
