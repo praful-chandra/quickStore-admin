@@ -24,7 +24,12 @@ class Campaign extends Component {
   };
 
   ToggleSwitch = (status) => {
-    console.log(status);
+    this.setState({
+      campaign:{
+        ...this.state.campaign,
+        status
+      }
+    })
   };
 
   componentDidMount(){
@@ -42,16 +47,62 @@ class Campaign extends Component {
     })
   }
 
+  selectItemsHandler = items =>{
+      
+    this.setState({
+      campaign:{
+        ...this.state.campaign,
+        items
+      }
+    })
+  }
+
+  deleteItemsHandler = id =>{
+    this.setState({
+      campaign : {
+        ...this.state.campaign,
+        items : this.state.campaign.items.filter(item => item._id !== id)
+      }
+    })
+  }
+
+  handleText = item =>{
+    this.setState({
+      campaign:{
+        ...this.state.campaign,
+        [item.name] : item.value
+      }
+    })
+  }
+
+  imageSelector = async (e) => {
+    //converts the image selected to binary form and added to imageToPreview state
+    //attached the raw image to item for sending to server
+    let image = e.target.files[0];
+    this.setState({
+      imageToPreview: URL.createObjectURL(image),
+      campaign: {
+        ...this.state.campaign,
+        image,
+      },
+    });
+  };
+
+  saveCampaignHandler = ()=>{
+    console.log(this.state.campaign);
+    
+  }
 
   render() {
+    
     return (
       <div className="overlay-form">
-      {this.state.productSelectorOverlay ? <ProductSelectorOverlay close={this.toggleProductSelector} /> : null}
+      {this.state.productSelectorOverlay ? <ProductSelectorOverlay close={this.toggleProductSelector} items={this.state.campaign.items} itemsCallBack={this.selectItemsHandler}/> : null}
         <div className="overlay-form-left">
-          <ImagePreview image={this.state.imageToPreview}/>
-          <TextBox placeholder="Campaign Name" title="Campaign Name" />
-          <ToggleSwitch showText="active" hideText="deactive" cb={() => {}} />
-          {!this.props.neww ? null : (
+          <ImagePreview image={this.state.imageToPreview} cb={this.imageSelector}/>
+          <TextBox placeholder="Campaign Name" title="Campaign Name" value={this.state.campaign.name} cb={this.handleText} name="name"/>
+          <ToggleSwitch showText="active" hideText="deactive" cb={this.ToggleSwitch} value={this.state.campaign.status} />
+          {this.props.neww ? null : (
             <span>
               <div className="overlay-horizontalBlock">
                 <TextBox
@@ -83,11 +134,11 @@ class Campaign extends Component {
             </span>
           )}
           <div className="overlay-verticalBlock">
-            <HollowButton title="Save" size="9" />
+            <HollowButton title="Save" size="9" cb={this.saveCampaignHandler}/>
           </div>
         </div>
         <div className="overlay-form-right">
-          <ItemsList title="Items under campaign" items={this.state.campaign.items} cb={this.toggleProductSelector} additems={true} />
+          <ItemsList title="Items under campaign" items={this.state.campaign.items} cb={this.toggleProductSelector} deleteItem={this.deleteItemsHandler} additems={true} />
         </div>
       </div>
     );

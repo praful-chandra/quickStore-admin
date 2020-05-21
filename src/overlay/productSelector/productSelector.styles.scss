@@ -42,8 +42,10 @@
             grid-template-columns: repeat(auto-fit,minmax(20rem,1fr));
             grid-gap:1rem ;
         &-item{
-            border: 1px solid;
-            @include  flexer-horizontal-spaceevenly();
+            background-color: $white;
+            box-shadow: 1px 1px 5px $box-shadow;
+            @include  flexer-horizontal-spacebetween();
+            padding: 0 2rem;
             font-size: 2rem;
             color : $text-color;
             height: 7rem;
@@ -57,6 +59,11 @@
             &-selected{
                 color: $white;
                 background-color: $primaryColor;
+            }
+
+            & img{
+                width: 30%;
+                height: 80%;
             }
         }
         }
