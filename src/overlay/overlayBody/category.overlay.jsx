@@ -78,6 +78,11 @@ class CategoryOverlay extends Component {
       formData.append(key, this.state.item[key]);
     }
 
+    if (typeof this.state.campaign.image === "string") {
+      formData.delete("image");
+    }
+
+
     const rawData = {
       ...this.state.item,
       image: this.state.imageToPreview,

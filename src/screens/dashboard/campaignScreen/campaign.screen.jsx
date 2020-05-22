@@ -122,9 +122,7 @@ class CampaignScreen extends Component {
               {this.props.campaign.campaigns.map((campaign) => (
                 <CategorySubBodyItem
                   key={campaign._id}
-                  viewItem={() =>
-                    this.props.overlaySelector(<CampaignOverlay />)
-                  }
+     
                   item={[
                     {
                       item: <img src={`${campaign.image}`} alt="productItm" />,
@@ -143,7 +141,7 @@ class CampaignScreen extends Component {
                       size: 10,
                     },
                     {
-                      item: <FontAwesomeIcon icon={faPencilRuler} />,
+                      item: <FontAwesomeIcon icon={faPencilRuler} className="pointer" onClick={()=>this.props.overlaySelector(<CampaignOverlay campaign={campaign}/>)} />,
                       size: 10,
                     },
                     {

@@ -84,9 +84,10 @@ class ProductOverlay extends Component {
       formData.append(key, this.state.item[key]);
     }
 
-    if (this.state.item.image.type === "Buffer") {
+    if (typeof this.state.campaign.image === "string") {
       formData.delete("image");
     }
+
 
     const rawData = {
       ...this.state.item,
