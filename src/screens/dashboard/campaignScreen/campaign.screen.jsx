@@ -1,6 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilRuler, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencilRuler,
+  faTrashAlt,
+  faArrowCircleUp,
+  faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
@@ -13,19 +19,73 @@ import CategorySubBody from "../../../components/categorySubBody/categorySubBody
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
 import CampaignOverlay from "../../../overlay/overlayBody/campaign.overlay";
+import LoadingScreen from "../../loading/loading.screen";
+
+import { getCampaignASync } from "../../../redux/actions/campaign.action";
 
 class CampaignScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: "" };
+    this.state = { search: "", sort: "createdAt", sortDirection: true };
   }
+
+  CampaignFilters = () => {
+    const search = this.state.search;
+
+    const only = search ? { name: { $regex: search, $options: "i" } } : {};
+
+    const sort = { [this.state.sort]: this.state.sortDirection ? 1 : -1 };
+
+    this.props.getCampaignASync({ only, sort });
+  };
+
+  searchFilter = (search) => {
+    this.setState(
+      {
+        search: search.value,
+      },
+      () => this.CampaignFilters()
+    );
+  };
+  sortFilter = (filter) => {
+    this.setState(
+      {
+        sort: filter,
+      },
+      () => this.CampaignFilters()
+    );
+  };
+  componentDidMount() {
+    if (!this.props.campaign.init) this.CampaignFilters();
+  }
+
   render() {
     return (
       <div className="window-wrapper">
         <CategoryHeader title="Campaign">
           <DropDownBox
             label="SortBy"
-            options={["select One", "name", "creation Date", "Number of items"]}
+            options={[
+              { name: "date", value: "createdAt" },
+              { name: "name", value: "name" },
+            ]}
+            cb={this.sortFilter}
+            value={this.state.sort}
+          />
+          <ActionButton
+            title={
+              <FontAwesomeIcon
+                icon={
+                  this.state.sortDirection ? faArrowCircleUp : faArrowCircleDown
+                }
+              />
+            }
+            size="3"
+            cb={() =>
+              this.setState({ sortDirection: !this.state.sortDirection }, () =>
+                this.CampaignFilters()
+              )
+            }
           />
           <TextBox
             title="Search"
@@ -33,9 +93,15 @@ class CampaignScreen extends Component {
             size="51"
             placeholder="Try hats"
             value={this.state.search}
-            cb={(e) => this.setState({ search: e.target.value })}
+            cb={this.searchFilter}
           />
-          <ActionButton title="Add Campaign" size="28" cb={() => this.props.overlaySelector(<CampaignOverlay neww={true}/>)} />
+          <ActionButton
+            title="Add Campaign"
+            size="28"
+            cb={() =>
+              this.props.overlaySelector(<CampaignOverlay neww={true} />)
+            }
+          />
         </CategoryHeader>
 
         <CategoryBody>
@@ -49,46 +115,54 @@ class CampaignScreen extends Component {
               { title: "Remove", size: 10 },
             ]}
           />
-          <CategorySubBody>
-            <CategorySubBodyItem
-              viewItem={()=>this.props.overlaySelector(<CampaignOverlay />)}
-              item={[
-                {
-                  item: (
-                    <img
-                      src={`${require("../../../Assets/images/red-beanie.png")}`}
-                      alt="productItm"
-                    />
-                  ),
-                  size: 10,
-                },
-                {
-                  item: "That campaign Name",
-                  size: 40,
-                },
-                {
-                  item: 1540,
-                  size: 20,
-                },
-                {
-                  item: 150,
-                  size: 10,
-                },
-                {
-                  item: <FontAwesomeIcon icon={faPencilRuler} />,
-                  size: 10,
-                },
-                {
-                  item: <FontAwesomeIcon icon={faTrashAlt} />,
-                  size: 10,
-                },
-              ]}
-            />
-          </CategorySubBody>
+          {this.props.campaign.campaignLoading ? (
+            <LoadingScreen />
+          ) : (
+            <CategorySubBody>
+              {this.props.campaign.campaigns.map((campaign) => (
+                <CategorySubBodyItem
+                  key={campaign._id}
+                  viewItem={() =>
+                    this.props.overlaySelector(<CampaignOverlay />)
+                  }
+                  item={[
+                    {
+                      item: <img src={`${campaign.image}`} alt="productItm" />,
+                      size: 10,
+                    },
+                    {
+                      item: [campaign.name],
+                      size: 40,
+                    },
+                    {
+                      item: [campaign.views],
+                      size: 20,
+                    },
+                    {
+                      item: [campaign.itemsSold],
+                      size: 10,
+                    },
+                    {
+                      item: <FontAwesomeIcon icon={faPencilRuler} />,
+                      size: 10,
+                    },
+                    {
+                      item: <FontAwesomeIcon icon={faTrashAlt} />,
+                      size: 10,
+                    },
+                  ]}
+                />
+              ))}
+            </CategorySubBody>
+          )}
         </CategoryBody>
       </div>
     );
   }
 }
 
-export default CampaignScreen;
+const mapStateToProps = (state) => ({
+  campaign: state.campaign,
+});
+
+export default connect(mapStateToProps, { getCampaignASync })(CampaignScreen);

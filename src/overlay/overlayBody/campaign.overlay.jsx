@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import {connect} from "react-redux";
 import ImagePreview from "../../components/imagePreview/imagepreview.component";
 import TextBox from "../../components/textBox/textBox.component";
 import ToggleSwitch from "../../components/toggleSwitch/toggleSwitch.component";
@@ -8,6 +8,9 @@ import HollowButton from "../../components/hollowButton/hollowButton.component";
 import ItemsList from "../../components/itemsList/itemList.component";
 
 import ProductSelectorOverlay from "../productSelector/productSelector.overly";
+
+import {createCampaignAsync} from "../../redux/actions/campaign.action"
+import {hideOverlay} from "../../redux/actions/overlay.action";
 class Campaign extends Component {
   state = {
     campaign :{
@@ -88,8 +91,35 @@ class Campaign extends Component {
     });
   };
 
+  generateFormAndRawDataFromState = () => {
+    //Two copies created ,
+    //first is form data to send to server
+    //second is raw js object to update the redux state
+
+    for (const key in this.state.campaign) {
+      if (this.state.campaign[key] === "" || 0) {
+        return alert("all fields reduired");
+      }
+    }
+
+    const formData = new FormData();
+
+    for (const key in this.state.campaign) {
+      formData.append(key, this.state.campaign[key]);
+    }
+
+    const rawData = {
+      ...this.state.campaign,
+      image: this.state.imageToPreview,
+    };
+
+    return { formData, rawData };
+  };
+
   saveCampaignHandler = ()=>{
-    console.log(this.state.campaign);
+    const { formData, rawData } = this.generateFormAndRawDataFromState();
+    this.props.createCampaignAsync(formData, rawData);
+    this.props.hideOverlay();
     
   }
 
@@ -145,4 +175,4 @@ class Campaign extends Component {
   }
 }
 
-export default Campaign;
+export default connect(null,{createCampaignAsync,hideOverlay})(Campaign);
