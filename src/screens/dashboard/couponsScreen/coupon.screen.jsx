@@ -43,7 +43,8 @@ class CouponScreen extends Component {
             items={[
               { title: "Name", size: 10 },
               { title: "Gen at", size: 10},
-              { title: "CODE", size: 40 },
+              { title: "CODE", size: 30 },
+              { title: "UpTo", size: 10 },
               { title: "Remaining", size: 10 },
               { title: "Discount\n%", size: 10 },
               { title: "Edit", size: 10 },
@@ -64,7 +65,11 @@ class CouponScreen extends Component {
                 },
                 {
                   item: "FLAT50",
-                  size: 40,
+                  size: 30,
+                },
+                {
+                  item: "NA",
+                  size: 10,
                 },
                 {
                   item: "10/50",

@@ -1,6 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilRuler, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencilRuler,
+  faTrashAlt,
+  faArrowCircleUp,
+  faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
@@ -14,18 +20,75 @@ import CategorySubBodyItem from "../../../components/categorySubBody/categorySub
 
 import SalesOverlay from "../../../overlay/overlayBody/sales.overlay";
 
+import { getSaleAsync } from "../../../redux/actions/sale.action";
+
+import LoadingScreen from "../../loading/loading.screen";
+
 class SalesScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: "" };
+    this.state = { search: "", sort: "createdAt", sortDirection: true };
   }
+
+  salesFilters = () => {
+    const search = this.state.search;
+
+    const only = search ? { name: { $regex: search, $options: "i" } } : {};
+
+    const sort = { [this.state.sort]: this.state.sortDirection ? 1 : -1 };
+
+    this.props.getSaleAsync({ only, sort });
+  };
+
+  searchFilter = (search) => {
+    this.setState(
+      {
+        search: search.value,
+      },
+      () => this.salesFilters()
+    );
+  };
+
+  sortFilter = (filter) => {
+    this.setState(
+      {
+        sort: filter,
+      },
+      () => this.salesFilters()
+    );
+  };
+
+  componentDidMount() {
+    if (!this.props.sale.init) this.salesFilters();
+  }
+
   render() {
     return (
       <div className="window-wrapper">
         <CategoryHeader title="Sales">
           <DropDownBox
             label="SortBy"
-            options={["select One", "name", "creation Date", "Number of items"]}
+            options={[
+              { name: "date", value: "createdAt" },
+              { name: "name", value: "name" },
+            ]}
+            cb={this.sortFilter}
+            value={this.state.sort}
+          />
+          <ActionButton
+            title={
+              <FontAwesomeIcon
+                icon={
+                  this.state.sortDirection ? faArrowCircleUp : faArrowCircleDown
+                }
+              />
+            }
+            size="3"
+            cb={() =>
+              this.setState({ sortDirection: !this.state.sortDirection }, () =>
+                this.salesFilters()
+              )
+            }
           />
           <TextBox
             title="Search"
@@ -33,9 +96,14 @@ class SalesScreen extends Component {
             size="51"
             placeholder="Try hats"
             value={this.state.search}
-            cb={(e) => this.setState({ search: e.target.value })}
+            cb={this.searchFilter}
           />
-          <ActionButton title="Add Sale" size="28" cb={() => this.props.overlaySelector(<SalesOverlay />)} />
+
+          <ActionButton
+            title="Add Sale"
+            size="28"
+            cb={() => this.props.overlaySelector(<SalesOverlay neww={true} />)}
+          />
         </CategoryHeader>
 
         <CategoryBody>
@@ -49,46 +117,60 @@ class SalesScreen extends Component {
               { title: "Remove", size: 10 },
             ]}
           />
-          <CategorySubBody>
-            <CategorySubBodyItem
-            viewItem={()=>this.props.overlaySelector("View Item Sales")}
-              item={[
-                {
-                  item: (
-                    <img
-                      src={`${require("../../../Assets/images/red-beanie.png")}`}
-                      alt="productItm"
-                    />
-                  ),
-                  size: 10,
-                },
-                {
-                  item: "The Winter Sale",
-                  size: 40,
-                },
-                {
-                  item: 1540,
-                  size: 20,
-                },
-                {
-                  item: 150,
-                  size: 10,
-                },
-                {
-                  item: <FontAwesomeIcon icon={faPencilRuler} />,
-                  size: 10,
-                },
-                {
-                  item: <FontAwesomeIcon icon={faTrashAlt} />,
-                  size: 10,
-                },
-              ]}
-            />
-          </CategorySubBody>
+
+          {this.props.sale.saleLoading ? (
+            <LoadingScreen />
+          ) : (
+            <CategorySubBody>
+              {this.props.sale.sales.map((sale) => (
+                <CategorySubBodyItem
+                  key={sale._id}
+                  item={[
+                    {
+                      item: <img src={`${sale.image}`} alt="productItm" />,
+                      size: 10,
+                    },
+                    {
+                      item: sale.name,
+                      size: 40,
+                    },
+                    {
+                      item: sale.views,
+                      size: 20,
+                    },
+                    {
+                      item: sale.itemsSold,
+                      size: 10,
+                    },
+                    {
+                      item: (
+                        <FontAwesomeIcon
+                          icon={faPencilRuler}
+                          className="pointer"
+                          onClick={() =>
+                            this.props.overlaySelector(<SalesOverlay sale={sale} />)
+                          }
+                        />
+                      ),
+                      size: 10,
+                    },
+                    {
+                      item: <FontAwesomeIcon icon={faTrashAlt} />,
+                      size: 10,
+                    },
+                  ]}
+                />
+              ))}
+            </CategorySubBody>
+          )}
         </CategoryBody>
       </div>
     );
   }
 }
 
-export default SalesScreen;
+const mapStateToProps = (state) => ({
+  sale: state.sale,
+});
+
+export default connect(mapStateToProps, { getSaleAsync })(SalesScreen);
