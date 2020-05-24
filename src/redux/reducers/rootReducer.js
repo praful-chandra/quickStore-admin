@@ -4,9 +4,10 @@ import userReducer from "./userReducer";
 import productsReducer from "./products.reducer";
 import categoryReducer from "./category.reducer"
 import campaignReducer from "./campaign.reducer";
+import saleReducer from "./sales.reducer";
+import couponReducer from "./coupon.reducer";
 import overlayReducer from "./overlay.reducer";
 import leftBarReducer from "./leftBar.reducer";
-import saleReducer from "./sales.reducer";
 const rootReducer = combineReducers({
 
     user : userReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     category : categoryReducer,
     campaign : campaignReducer,
     sale : saleReducer,
+    coupon : couponReducer,
     overlay : overlayReducer,
     leftBar : leftBarReducer,
 })

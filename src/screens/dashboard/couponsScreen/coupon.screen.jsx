@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilRuler, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
- 
+import { faPencilRuler, faTrashAlt ,faArrowCircleUp,faArrowCircleDown} from "@fortawesome/free-solid-svg-icons";
+
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
@@ -14,18 +15,75 @@ import CategorySubBodyItem from "../../../components/categorySubBody/categorySub
 
 import CouponOverlay from "../../../overlay/overlayBody/coupons.overlay";
 
+import { getCouponAsync } from "../../../redux/actions/coupon.action";
+
+import LoadingScreen from "../../loading/loading.screen";
+
 class CouponScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: "" };
+    this.state = { search: "", sort: "createdAt", sortDirection: true };
   }
+  couponFilters = () => {
+    const search = this.state.search;
+
+    const only = search ? { name: { $regex: search, $options: "i" } } : {};
+
+    const sort = { [this.state.sort]: this.state.sortDirection ? 1 : -1 };
+
+    this.props.getCouponAsync({ only, sort });
+  };
+
+  searchFilter = (search) => {
+    this.setState(
+      {
+        search: search.value,
+      },
+      () => this.couponFilters()
+    );
+  };
+  sortFilter = (filter) => {
+    this.setState(
+      {
+        sort: filter,
+      },
+      () => this.couponFilters()
+    );
+  };
+
+  componentDidMount() {
+    if (!this.props.coupon.init) {
+      this.couponFilters();
+    }
+  }
+
   render() {
     return (
       <div className="window-wrapper">
         <CategoryHeader title="Coupons">
           <DropDownBox
             label="SortBy"
-            options={["select One", "name", "creation Date", "Number of items"]}
+            options={[
+              { name: "date", value: "createdAt" },
+              { name: "name", value: "name" },
+            ]}
+            cb={this.sortFilter}
+            value={this.state.sort}
+          />
+          <ActionButton
+            title={
+              <FontAwesomeIcon
+                icon={
+                  this.state.sortDirection ? faArrowCircleUp : faArrowCircleDown
+                }
+              />
+            }
+            size="3"
+            cb={() =>
+              this.setState({ sortDirection: !this.state.sortDirection }, () =>
+                this.couponFilters()
+              )
+            }
           />
           <TextBox
             title="Search"
@@ -33,67 +91,87 @@ class CouponScreen extends Component {
             size="51"
             placeholder="Try hats"
             value={this.state.search}
-            cb={(e) => this.setState({ search: e.target.value })}
+            cb={this.searchFilter}
           />
-          <ActionButton title="Add Coupon" size="28" cb={() => this.props.overlaySelector(<CouponOverlay />)} />
+          <ActionButton
+            title="Add Coupon"
+            size="28"
+            cb={() => this.props.overlaySelector(<CouponOverlay neww={true}/>)}
+          />
         </CategoryHeader>
 
         <CategoryBody>
           <CategorySubHeading
             items={[
               { title: "Name", size: 10 },
-              { title: "Gen at", size: 10},
+              { title: "Gen at", size: 10 },
               { title: "CODE", size: 30 },
               { title: "UpTo", size: 10 },
               { title: "Remaining", size: 10 },
               { title: "Discount\n%", size: 10 },
-              { title: "Edit", size: 10 },
-              { title: "Remove", size: 10 },
+              { title: "Exp at", size: 10 },
+              { title: "Edit", size: 5 },
+              { title: "Remove", size: 5 },
             ]}
           />
-          <CategorySubBody>
-          <CategorySubBodyItem
-          viewItem={()=>this.props.overlaySelector("view Coupon")}
-              item={[
-                {
-                  item: "CouponKing",
-                  size: 10,
-                },
-                {
-                  item: "7 May 2019",
-                  size: 10,
-                },
-                {
-                  item: "FLAT50",
-                  size: 30,
-                },
-                {
-                  item: "NA",
-                  size: 10,
-                },
-                {
-                  item: "10/50",
-                  size: 10,
-                },
-                {
-                  item: "50",
-                  size: 10,
-                },
-                {
-                  item: <FontAwesomeIcon icon={faPencilRuler} />,
-                  size: 10,
-                },
-                {
-                  item: <FontAwesomeIcon icon={faTrashAlt} />,
-                  size: 10,
-                },
-              ]}
-            />
-          </CategorySubBody>
+
+          {this.props.coupon.couponLoading ? (
+            <LoadingScreen />
+          ) : (
+            <CategorySubBody>
+              {this.props.coupon.coupons.map((coupon) => (
+                <CategorySubBodyItem
+                  key={coupon._id}
+                  item={[
+                    {
+                      item: coupon.name,
+                      size: 10,
+                    },
+                    {
+                      item: new Date(coupon.createdAt).toDateString(),
+                      size: 10,
+                    },
+                    {
+                      item: coupon.code.toUpperCase(),
+                      size: 30,
+                    },
+                    {
+                      item: coupon.upTo ? `${coupon.upTo}.Rs` : "N/A",
+                      size: 10,
+                    },
+                    {
+                      item: coupon.remainingCoupons,
+                      size: 10,
+                    },
+                    {
+                      item: coupon.discount,
+                      size: 10,
+                    },
+                    {
+                      item: new Date(coupon.expiry).toDateString(),
+                      size: 10,
+                    },
+                    {
+                      item: <FontAwesomeIcon icon={faPencilRuler} className="pointer" onClick={()=>this.props.overlaySelector(<CouponOverlay coupon={coupon}/>)} />,
+                      size: 5,
+                    },
+                    {
+                      item: <FontAwesomeIcon icon={faTrashAlt} />,
+                      size: 5,
+                    },
+                  ]}
+                />
+              ))}
+            </CategorySubBody>
+          )}
         </CategoryBody>
       </div>
     );
   }
 }
 
-export default CouponScreen;
+const mapStateToProps = (state) => ({
+  coupon: state.coupon,
+});
+
+export default connect(mapStateToProps, { getCouponAsync })(CouponScreen);
