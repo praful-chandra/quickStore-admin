@@ -13,9 +13,17 @@
 
 @mixin flexer-vertical-spacebetween {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
+}
+
+
+@mixin flexer-vertical-spaceevenly {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 @mixin flexer-vertical-totalCenter {

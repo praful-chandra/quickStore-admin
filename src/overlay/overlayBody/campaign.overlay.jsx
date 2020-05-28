@@ -111,7 +111,7 @@ class Campaign extends Component {
       formData.append(key, this.state.campaign[key]);
     }
 
-    if (typeof this.state.campaign.image === "string") {
+    if (this.state.campaign.image && typeof this.state.campaign.image === "string") {
       formData.delete("image");
     }
 

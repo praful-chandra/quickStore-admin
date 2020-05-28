@@ -19,6 +19,7 @@ function NavBar(props) {
                     title="Add products"
                     size="19"
                     cb={()=>props.overlaySelector(<ProductOverlay new={true}/>)}
+                    disabled={props.categories.length > 0 ? false : true}
                 />
             </div>
             <div className="navBar-profile">
@@ -30,7 +31,8 @@ function NavBar(props) {
 }
 
 const mapStateToProps = state =>({
-    admin : state.user.user.admin
+    admin : state.user.user.admin,
+    categories : state.category.category
 })
 
 export default connect(mapStateToProps)(NavBar);

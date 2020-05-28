@@ -8,6 +8,8 @@ import saleReducer from "./sales.reducer";
 import couponReducer from "./coupon.reducer";
 import overlayReducer from "./overlay.reducer";
 import leftBarReducer from "./leftBar.reducer";
+import ConfirmationReducer from "./conformation.reducer";
+
 const rootReducer = combineReducers({
 
     user : userReducer,
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
     coupon : couponReducer,
     overlay : overlayReducer,
     leftBar : leftBarReducer,
+    confirmation : ConfirmationReducer
 })
 
 

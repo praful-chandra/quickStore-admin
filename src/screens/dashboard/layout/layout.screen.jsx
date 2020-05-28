@@ -16,7 +16,7 @@ import CampaignScreen from "../campaignScreen/campaign.screen";
 import SalesScreen from "../salesScreen/sales.screen";
 import CouponsScreen from "../couponsScreen/coupon.screen";
 import OverlayScreen from "../../../overlay/overlay.screen";
-
+import ConformationOverlay from "../../../overlay/confirmationOverlay/conformation.overlay";
 //Actions import
 import { getCategoryAsync } from "../../../redux/actions/category.action";
 
@@ -72,6 +72,8 @@ class DashboardtLayout extends Component {
             component={this.props.overlay.overayContent}
           />
         ) : null}
+
+         {this.props.confirmation.status ? <ConformationOverlay /> : null}
         <NavBar overlaySelector={this.switchOverlay} />
         <LeftBar />
 
@@ -85,7 +87,8 @@ class DashboardtLayout extends Component {
 const mapStateToProps = (state) => ({
   category: state.category,
   overlay: state.overlay,
-  leftBar : state.leftBar
+  leftBar : state.leftBar,
+  confirmation : state.confirmation
 });
 
 export default connect(mapStateToProps, {

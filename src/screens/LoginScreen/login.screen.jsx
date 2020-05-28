@@ -28,7 +28,7 @@ class LoginScreen extends Component {
               type="text"
               value={this.state.email}
               cb={(e) => {
-                this.setState({ email: e.target.value });
+                this.setState({ email: e.value });
               }}
              
             />
@@ -39,7 +39,7 @@ class LoginScreen extends Component {
               type="password"
               value={this.state.password}
               cb={(e) => {
-                this.setState({ password: e.target.value });
+                this.setState({ password: e.value });
               }}
             />
 

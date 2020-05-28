@@ -1,0 +1,86 @@
+.confirmationDialoug{
+    &-wrapper{
+        width: 100vw;
+        height: 100vh;
+        background-color: $box-shadow;
+        position: absolute;
+        top: 0em;
+        left: 0;
+        z-index: 10000;
+        @include flexer-horizontal-totalCenter();
+    }
+
+    &-body{
+        animation: entryBody ease-in 0.2s;
+        width: 60%;
+        height: 35%;
+        background-color: $white;
+        border-radius: 50px;
+        @include flexer-vertical-spaceevenly();
+
+        &-message{
+            animation: entryContent ease-in 0.2s;
+
+            color: $text-color;
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Righteous', cursive;
+        }
+
+        &-action{
+            animation: entryContent ease-in 0.2s;
+
+            font-size: 3rem;
+      font-family: 'Bahnschrift Regular';
+      font-weight: bold;
+                & span{
+                    margin: 0 4rem;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+
+                }
+            &-true{
+                background-color: $primaryColor;
+                color: $white;
+                padding: 1rem;
+                border-radius: 20px;
+                border: 3px solid $primaryColor;
+                &:hover{
+                    border: 3px solid ;
+                    color: $primaryColor;
+                    background-color: $white;
+                }
+            }
+
+            &-false{
+                color: $darkGrey;
+                padding-bottom: 1rem;
+                &:hover{
+                    border-bottom: 3px solid;
+                }
+            }
+        }
+    }
+}
+
+@keyframes entryBody{
+    0%{
+        width: 10%;
+        height: 10%;
+    }
+
+    100%{
+        width: 60%;
+        height: 35%;
+    }
+}
+
+@keyframes entryContent{
+    0%{
+        font-size: 0;
+    }
+
+    100%{
+        font-size: 3rem;
+    }
+}

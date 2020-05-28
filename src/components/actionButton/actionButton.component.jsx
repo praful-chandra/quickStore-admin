@@ -1,8 +1,8 @@
 import React from 'react'
 
-function ActionButton({size,title,cb}) {
+function ActionButton({size,title,cb,disabled}) {
 
-    return <div style={{width:`${size}rem`}} className="actionButton" onClick = {()=>cb()}>
+    return <div style={{width:`${size}rem`, backgroundColor : `${disabled ? "#eee" : ""}`}} className="actionButton" onClick = {()=>!disabled ? cb() : {}}>
                 {title}
     </div>
 }
