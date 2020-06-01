@@ -9,10 +9,10 @@ import { showDialog } from "../../redux/actions/conformation.action";
 import {deleteProductAsync} from "../../redux/actions/products.actions";
 
 function ItemCard(props) {
-  const {_id, image, name, quantity, price } = props.item;
+  const {_id, image, name, quantity, price,categoryId} = props.item;
 
   const handleDelete = () => {
-    props.deleteProductAsync(_id);
+    props.deleteProductAsync(_id,categoryId);
   };
   const showDialoug = () => {
     props.showDialog(

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { PRODUCTS_ACTION } from "./action.types";
 
+import {incrementProduct,decrementProduct} from "./category.action";
+
 const loadProducts = () => ({
   type: PRODUCTS_ACTION.PRODUCTS_LOADING,
 });
@@ -86,14 +88,15 @@ export const createProductAsync = (data, raw) => async (dispatch) => {
   dispatch(loadProducts());
 
   try {
-    await axios.post("/api/admin/shop/addProduct", data, {
+   const product =  await axios.post("/api/admin/shop/addProduct", data, {
       headers: {
         "content-type": "multipart/form-data",
       },
     });
 
-    const newProductRaw = { ...raw, _id: Math.random() * 50 };
+    const newProductRaw = { ...raw, _id: product.data._id };
     dispatch(createProduct(newProductRaw));
+    dispatch(incrementProduct(raw.categoryId, product.data._id));
   } catch (err) {
     alert(err.response.data.error);
   } finally {
@@ -101,13 +104,13 @@ export const createProductAsync = (data, raw) => async (dispatch) => {
   }
 };
 
-export const deleteProductAsync = prodId =>async dispatch =>{
+export const deleteProductAsync = (prodId,cateId) =>async dispatch =>{
   dispatch(loadProducts());
 
   try{
     await axios.delete("/api/admin/shop/deleteProduct",{data : {_id : prodId}});
     dispatch(deleteProduct(prodId));
-
+    dispatch(decrementProduct(cateId,prodId));
   }
   catch(err){
     console.log(err.response);

@@ -32,6 +32,16 @@ const deleteCategory = category =>({
     payload : category
 })
 
+export const incrementProduct = (cateId,prodId)=>({
+    type : CATEGORY_ACTION.INCREMENT_PROD,
+    payload : {category : cateId , product : prodId}
+})
+
+export const decrementProduct = (cateId,prodId)=>({
+    type : CATEGORY_ACTION.DECREMENT_PROD,
+    payload : {category : cateId , product : prodId}
+})
+
 export const getCategoryAsync = (options)=> async dispatch=>{
     dispatch(loadCategory());
     
