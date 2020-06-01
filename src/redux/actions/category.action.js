@@ -1,6 +1,7 @@
 import axios from "axios";
 import {CATEGORY_ACTION} from "./action.types";
 
+import {deleteProductsUnderCategory} from "./products.actions";
 
 
  const loadCategory = ()=>({
@@ -23,6 +24,11 @@ const addCategory = category =>({
 
 const updateCategory = category =>({
     type : CATEGORY_ACTION.EDIT_CATEGORY,
+    payload : category
+})
+
+const deleteCategory = category =>({
+    type :CATEGORY_ACTION.DELETE_CATEGORY,
     payload : category
 })
 
@@ -53,8 +59,8 @@ export const addCategoryAsync = (newCategory,raw)=> async dispatch =>{
 
     try{
 
-         await axios.post("/api/admin/shop/addCategory",newCategory)
-        const newCategoryRaw = { ...raw, _id: Math.random() * 50 , Products : [] }
+        const category =  await axios.post("/api/admin/shop/addCategory",newCategory)
+        const newCategoryRaw = { ...raw, _id: category.data._id, Products : [] }
 
         dispatch(addCategory(newCategoryRaw));
     
@@ -84,6 +90,30 @@ export const updateCategoryAsync = (updatedCategory,raw) => async dispatch =>{
       }
       catch(err){
        // console.log(err.response);
+       
+      }
+      finally{
+       dispatch(loadCategoryDone())
+   
+      }
+
+}
+
+
+export const deleteCategoryAsync = cateId => async dispatch =>{
+
+    dispatch(loadCategory())
+
+    try{
+
+        await axios.delete("/api/admin/shop/deletecategory",{data : {_id : cateId}})
+
+
+       dispatch(deleteCategory(cateId));
+        dispatch(deleteProductsUnderCategory(cateId));
+      }
+      catch(err){
+       alert("Error occured while deleting")
        
       }
       finally{

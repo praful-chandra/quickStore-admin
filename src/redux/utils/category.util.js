@@ -17,3 +17,5 @@ export const editCategory = (allCategory,updatedCategory) =>{
 
 
 }
+
+export const deleteCategory = (allCategory , cateId) => allCategory.filter((cate)=>cate._id !== cateId);

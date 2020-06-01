@@ -1,5 +1,5 @@
 import {CATEGORY_ACTION} from "../actions/action.types"
-import {addCategory,editCategory} from "../utils/category.util";
+import {addCategory,editCategory,deleteCategory} from "../utils/category.util";
 const INITIAL_STATE = {
    category : [],
    categoryLoading : false,
@@ -38,6 +38,11 @@ const CategoryReducer = (state = INITIAL_STATE , action)=>{
         case CATEGORY_ACTION.EDIT_CATEGORY : return{
             ...state,
             category : editCategory(state.category,action.payload)
+        }
+
+        case CATEGORY_ACTION.DELETE_CATEGORY : return{
+            ...state,
+            category : deleteCategory(state.category , action.payload)
         }
 
         default : return state

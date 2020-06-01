@@ -6,12 +6,13 @@ import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import ConformationOverlayBody from "../../overlay/confirmationOverlay/conformationBody";
 
 import { showDialog } from "../../redux/actions/conformation.action";
+import {deleteProductAsync} from "../../redux/actions/products.actions";
 
 function ItemCard(props) {
-  const { image, name, quantity, price } = props.item;
+  const {_id, image, name, quantity, price } = props.item;
 
   const handleDelete = () => {
-    console.log("In delete");
+    props.deleteProductAsync(_id);
   };
   const showDialoug = () => {
     props.showDialog(
@@ -51,4 +52,4 @@ const mapSateToProps = (state) => ({
   confirmation: state.confirmation,
 });
 
-export default connect(mapSateToProps, { showDialog })(ItemCard);
+export default connect(mapSateToProps, { showDialog ,deleteProductAsync})(ItemCard);

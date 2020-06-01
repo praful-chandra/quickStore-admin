@@ -24,6 +24,16 @@ const createProduct = (newProduct) => ({
   payload: newProduct,
 });
 
+const deleteProduct = prodId =>({
+  type : PRODUCTS_ACTION.DELETE_PRODUCT,
+  payload : prodId
+})
+
+export const deleteProductsUnderCategory = cateId =>({
+  type : PRODUCTS_ACTION.DELETE_PRODUCTS_UNDER_CATEGORY,
+  payload : cateId
+})
+
 export const getProductsAsync = (options, neww) => async (dispatch) => {
   dispatch(loadProducts());
 
@@ -90,3 +100,19 @@ export const createProductAsync = (data, raw) => async (dispatch) => {
     dispatch(loadProductsDone());
   }
 };
+
+export const deleteProductAsync = prodId =>async dispatch =>{
+  dispatch(loadProducts());
+
+  try{
+    await axios.delete("/api/admin/shop/deleteProduct",{data : {_id : prodId}});
+    dispatch(deleteProduct(prodId));
+
+  }
+  catch(err){
+    console.log(err.response);
+  }
+  finally {
+    dispatch(loadProductsDone());
+  }
+}

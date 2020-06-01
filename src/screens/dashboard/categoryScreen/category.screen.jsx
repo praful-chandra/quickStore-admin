@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilRuler, faTrashAlt ,faArrowCircleUp , faArrowCircleDown} from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencilRuler,
+  faTrashAlt,
+  faArrowCircleUp,
+  faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
 import TextBox from "../../../components/textBox/textBox.component";
 import ActionButton from "../../../components/actionButton/actionButton.component";
-
 
 import CategoryBody from "../../../components/categoryBody/categoryBody.component";
 import CategorySubHeading from "../../../components/categorySubHeading/categorySubHeading.component";
@@ -15,10 +19,11 @@ import CategorySubBodyItem from "../../../components/categorySubBody/categorySub
 
 import LoadingScreen from "../../loading/loading.screen";
 
-
 import CategoryOverlay from "../../../overlay/overlayBody/category.overlay";
+import ConfirmationOverlayBody from "../../../overlay/confirmationOverlay/conformationBody";
 
-import {getCategoryAsync} from "../../../redux/actions/category.action";
+import { showDialog } from "../../../redux/actions/conformation.action";
+import { getCategoryAsync ,deleteCategoryAsync } from "../../../redux/actions/category.action";
 
 class CategoryScreen extends Component {
   constructor(props) {
@@ -40,10 +45,12 @@ class CategoryScreen extends Component {
   };
 
   searchFilter = (search) => {
-
-    this.setState({
-      search : search.value
-    },()=>    this.categoryFilters())
+    this.setState(
+      {
+        search: search.value,
+      },
+      () => this.categoryFilters()
+    );
   };
 
   categoryFilters = () => {
@@ -61,9 +68,7 @@ class CategoryScreen extends Component {
     const limit = 15;
     const skip = this.state.loaded * 15;
 
-    this.props.getCategoryAsync(
-      { only, sort, skip, limit },
-    );
+    this.props.getCategoryAsync({ only, sort, skip, limit });
   };
 
   render() {
@@ -123,57 +128,62 @@ class CategoryScreen extends Component {
               { title: "Remove", size: 10 },
             ]}
           />
-         {
-           this.props.category.categoryLoading ? <LoadingScreen /> : (
+          {this.props.category.categoryLoading ? (
+            <LoadingScreen />
+          ) : (
             <CategorySubBody>
-            {this.props.category.category.map((category) => (
-              <CategorySubBodyItem
-                key={category._id}
-                item={[
-                  {
-                    item: (
-                      <img
-                        src={`${category.image}`}
-                        alt="productItm"
-                      />
-                    ),
-                    size: 25,
-                  },
-                  {
-                    item: category.name,
-                    size: 35,
-                  },
-                  {
-                    item: category.Products.length,
-                    size: 20,
-                  },
-                  {
-                    item: (
-                      <FontAwesomeIcon
-                        className="pointer"
-                        icon={faPencilRuler}
-                        onClick={() =>
-                          this.props.overlaySelector(
-                            <CategoryOverlay item={category} />
-                          )
-                        }
-                      />
-                    ),
-                    size: 10,
-                  },
-                  {
-                    item: (
-                      <FontAwesomeIcon className="pointer" icon={faTrashAlt} />
-                    ),
-                    size: 10,
-                  },
-                ]}
-              />
-            ))}
-          </CategorySubBody>
-           )
-           
-         }
+              {this.props.category.category.map((category) => (
+                <CategorySubBodyItem
+                  key={category._id}
+                  item={[
+                    {
+                      item: <img src={`${category.image}`} alt="productItm" />,
+                      size: 25,
+                    },
+                    {
+                      item: category.name,
+                      size: 35,
+                    },
+                    {
+                      item: category.Products.length,
+                      size: 20,
+                    },
+                    {
+                      item: (
+                        <FontAwesomeIcon
+                          className="pointer"
+                          icon={faPencilRuler}
+                          onClick={() =>
+                            this.props.overlaySelector(
+                              <CategoryOverlay item={category} />
+                            )
+                          }
+                        />
+                      ),
+                      size: 10,
+                    },
+                    {
+                      item: (
+                        <FontAwesomeIcon
+                          className="pointer"
+                          icon={faTrashAlt}
+                          onClick={() =>
+                            this.props.showDialog(
+                              <ConfirmationOverlayBody
+                                message={`Are You sure you want to delete ${category.name} with all its products`}
+                                cb={()=>this.props.deleteCategoryAsync(category._id)}
+                              />
+                            )
+                          }
+                        />
+                      ),
+                      size: 10,
+                    },
+                  ]}
+                />
+              ))}
+            </CategorySubBody>
+          )}
         </CategoryBody>
       </div>
     );
@@ -184,4 +194,6 @@ const mapStateToProps = (state) => ({
   category: state.category,
 });
 
-export default connect(mapStateToProps,{getCategoryAsync})(CategoryScreen);
+export default connect(mapStateToProps, { getCategoryAsync, showDialog,deleteCategoryAsync })(
+  CategoryScreen
+);

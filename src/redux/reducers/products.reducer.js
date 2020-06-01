@@ -1,6 +1,6 @@
 import {PRODUCTS_ACTION} from "../actions/action.types"
 
-import {editProduct,addProduct,appendProducts} from "../utils/product.util"
+import {editProduct,addProduct,appendProducts,deleteProduct,deleteProductsUnderCategory} from "../utils/product.util"
 
 const INITIAL_STATE = {
    products : [],
@@ -38,6 +38,21 @@ const ProductReducer = (state = INITIAL_STATE , action)=>{
         case PRODUCTS_ACTION.CREATE_PRODUCT : return{
             ...state,
             products : addProduct(state.products,action.payload)
+        }
+        case PRODUCTS_ACTION.DELETE_PRODUCT : return {
+            ...state,
+            products : deleteProduct(state.products , action.payload),
+            totalCount : state.totalCount - 1,
+        }
+
+        case PRODUCTS_ACTION.DELETE_PRODUCTS_UNDER_CATEGORY : {
+            const {products , length} = deleteProductsUnderCategory(state.products , action.payload);
+
+            return{
+                ...state,
+                products,
+                totalCount : state.totalCount - length
+            }
         }
 
         default : return state

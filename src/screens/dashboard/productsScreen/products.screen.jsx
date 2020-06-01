@@ -23,7 +23,7 @@ import HollowButton from "../../../components/hollowButton/hollowButton.componen
 import ProductOverlay from "../../../overlay/overlayBody/product.overlay";
 
 //actions
-import { getProductsAsync } from "../../../redux/actions/products.actions";
+import { getProductsAsync, } from "../../../redux/actions/products.actions";
 import { getCategoryAsync } from "../../../redux/actions/category.action";
 
 class ProductsScreen extends Component {
