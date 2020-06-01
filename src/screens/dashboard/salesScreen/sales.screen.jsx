@@ -19,8 +19,13 @@ import CategorySubBody from "../../../components/categorySubBody/categorySubBody
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
 import SalesOverlay from "../../../overlay/overlayBody/sales.overlay";
+import ConformationOverlayBody from "../../../overlay/confirmationOverlay/conformationBody";
 
-import { getSaleAsync } from "../../../redux/actions/sale.action";
+import {
+  getSaleAsync,
+  deleteSaleAsync,
+} from "../../../redux/actions/sale.action";
+import { showDialog } from "../../../redux/actions/conformation.action";
 
 import LoadingScreen from "../../loading/loading.screen";
 
@@ -60,6 +65,10 @@ class SalesScreen extends Component {
 
   componentDidMount() {
     if (!this.props.sale.init) this.salesFilters();
+  }
+
+  handleDelete(id) {
+    this.props.deleteSaleAsync(id);
   }
 
   render() {
@@ -148,14 +157,29 @@ class SalesScreen extends Component {
                           icon={faPencilRuler}
                           className="pointer"
                           onClick={() =>
-                            this.props.overlaySelector(<SalesOverlay sale={sale} />)
+                            this.props.overlaySelector(
+                              <SalesOverlay sale={sale} />
+                            )
                           }
                         />
                       ),
                       size: 10,
                     },
                     {
-                      item: <FontAwesomeIcon icon={faTrashAlt} />,
+                      item: (
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="pointer"
+                          onClick={() => {
+                            this.props.showDialog(
+                              <ConformationOverlayBody
+                                message="Are you sure you want to delete ?"
+                                cb={() => this.handleDelete(sale._id)}
+                              />
+                            );
+                          }}
+                        />
+                      ),
                       size: 10,
                     },
                   ]}
@@ -173,4 +197,8 @@ const mapStateToProps = (state) => ({
   sale: state.sale,
 });
 
-export default connect(mapStateToProps, { getSaleAsync })(SalesScreen);
+export default connect(mapStateToProps, {
+  getSaleAsync,
+  deleteSaleAsync,
+  showDialog,
+})(SalesScreen);

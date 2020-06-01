@@ -20,8 +20,13 @@ import CategorySubBodyItem from "../../../components/categorySubBody/categorySub
 
 import CampaignOverlay from "../../../overlay/overlayBody/campaign.overlay";
 import LoadingScreen from "../../loading/loading.screen";
+import ConformationOverlayBody from "../../../overlay/confirmationOverlay/conformationBody";
 
-import { getCampaignASync } from "../../../redux/actions/campaign.action";
+import {
+  getCampaignASync,
+  deleteCampaignAsync,
+} from "../../../redux/actions/campaign.action";
+import { showDialog } from "../../../redux/actions/conformation.action";
 
 class CampaignScreen extends Component {
   constructor(props) {
@@ -55,6 +60,11 @@ class CampaignScreen extends Component {
       () => this.CampaignFilters()
     );
   };
+
+  handleDelete = id=>{
+    this.props.deleteCampaignAsync(id);
+  }
+
   componentDidMount() {
     if (!this.props.campaign.init) this.CampaignFilters();
   }
@@ -122,7 +132,6 @@ class CampaignScreen extends Component {
               {this.props.campaign.campaigns.map((campaign) => (
                 <CategorySubBodyItem
                   key={campaign._id}
-     
                   item={[
                     {
                       item: <img src={`${campaign.image}`} alt="productItm" />,
@@ -141,11 +150,34 @@ class CampaignScreen extends Component {
                       size: 10,
                     },
                     {
-                      item: <FontAwesomeIcon icon={faPencilRuler} className="pointer" onClick={()=>this.props.overlaySelector(<CampaignOverlay campaign={campaign}/>)} />,
+                      item: (
+                        <FontAwesomeIcon
+                          icon={faPencilRuler}
+                          className="pointer"
+                          onClick={() =>
+                            this.props.overlaySelector(
+                              <CampaignOverlay campaign={campaign} />
+                            )
+                          }
+                        />
+                      ),
                       size: 10,
                     },
                     {
-                      item: <FontAwesomeIcon icon={faTrashAlt} />,
+                      item: (
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="pointer"
+                          onClick={() =>
+                            this.props.showDialog(
+                              <ConformationOverlayBody
+                                message="Are you sure you want to delete ?"
+                                cb={() => this.handleDelete(campaign._id)}
+                              />
+                            )
+                          }
+                        />
+                      ),
                       size: 10,
                     },
                   ]}
@@ -163,4 +195,8 @@ const mapStateToProps = (state) => ({
   campaign: state.campaign,
 });
 
-export default connect(mapStateToProps, { getCampaignASync })(CampaignScreen);
+export default connect(mapStateToProps, {
+  getCampaignASync,
+  deleteCampaignAsync,
+  showDialog,
+})(CampaignScreen);

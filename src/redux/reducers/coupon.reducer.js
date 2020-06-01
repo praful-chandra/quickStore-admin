@@ -1,6 +1,6 @@
 import {COUPON_ACTION} from "../actions/action.types";
 
-import {addCoupon,editCoupon} from "../utils/coupon.util";
+import {addCoupon,editCoupon,deleteCoupon} from "../utils/coupon.util";
 
 const INITIAL_STATE = {
     coupons : [],
@@ -33,6 +33,11 @@ export default (state = INITIAL_STATE,action)=>{
             ...state,
             coupons : editCoupon(state.coupons, action.payload)
         }
+        case COUPON_ACTION.DELETE_COUPON : return {
+            ...state,
+            coupons : deleteCoupon(state.coupons , action.payload)
+        }
+
         default : return state
     }
 }

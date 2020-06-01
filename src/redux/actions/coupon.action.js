@@ -25,6 +25,11 @@ const createCoupon = newCoupon =>({
     payload : newCoupon
 })
 
+const deleteCoupon = coupId =>({
+  type :COUPON_ACTION.DELETE_COUPON,
+  payload : coupId
+})
+
 export const getCouponAsync = (options) => async (dispatch) => {
   dispatch(couponLoading());
 
@@ -69,4 +74,19 @@ export const createCouponAsync = (newCoupon ) => async dispatch =>{
     } finally {
       dispatch(couponLoadingDone());
     }
+}
+
+export const deleteCouponAsync = (coupId ) => async dispatch =>{
+  dispatch(couponLoading());
+
+  try {
+
+    await axios.delete("/api/admin/shop/deleteCoupon",{data : {_id : coupId}});
+    dispatch(deleteCoupon(coupId));
+
+  } catch (err) {
+    alert(err.response.data.error);
+  } finally {
+    dispatch(couponLoadingDone());
+  }
 }

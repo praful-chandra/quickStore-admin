@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilRuler, faTrashAlt ,faArrowCircleUp,faArrowCircleDown} from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencilRuler,
+  faTrashAlt,
+  faArrowCircleUp,
+  faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 import CategoryHeader from "../../../components/categoryHeader/categoryHeader.component";
 import DropDownBox from "../../../components/dropDownBox/dropdownBox.component";
@@ -14,8 +19,13 @@ import CategorySubBody from "../../../components/categorySubBody/categorySubBody
 import CategorySubBodyItem from "../../../components/categorySubBody/categorySubBody.item.component";
 
 import CouponOverlay from "../../../overlay/overlayBody/coupons.overlay";
+import ConfirmationOverlayBody from "../../../overlay/confirmationOverlay/conformationBody";
 
-import { getCouponAsync } from "../../../redux/actions/coupon.action";
+import {
+  getCouponAsync,
+  deleteCouponAsync,
+} from "../../../redux/actions/coupon.action";
+import { showDialog } from "../../../redux/actions/conformation.action";
 
 import LoadingScreen from "../../loading/loading.screen";
 
@@ -50,6 +60,10 @@ class CouponScreen extends Component {
       () => this.couponFilters()
     );
   };
+
+  deleteHandler (id){
+    this.props.deleteCouponAsync(id);
+  }
 
   componentDidMount() {
     if (!this.props.coupon.init) {
@@ -96,7 +110,7 @@ class CouponScreen extends Component {
           <ActionButton
             title="Add Coupon"
             size="28"
-            cb={() => this.props.overlaySelector(<CouponOverlay neww={true}/>)}
+            cb={() => this.props.overlaySelector(<CouponOverlay neww={true} />)}
           />
         </CategoryHeader>
 
@@ -152,11 +166,31 @@ class CouponScreen extends Component {
                       size: 10,
                     },
                     {
-                      item: <FontAwesomeIcon icon={faPencilRuler} className="pointer" onClick={()=>this.props.overlaySelector(<CouponOverlay coupon={coupon}/>)} />,
+                      item: (
+                        <FontAwesomeIcon
+                          icon={faPencilRuler}
+                          className="pointer"
+                          onClick={() =>
+                            this.props.overlaySelector(
+                              <CouponOverlay coupon={coupon} />
+                            )
+                          }
+                        />
+                      ),
                       size: 5,
                     },
                     {
-                      item: <FontAwesomeIcon icon={faTrashAlt} />,
+                      item: (
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="pointer"
+                          onClick={() =>
+                            this.props.showDialog(
+                              <ConfirmationOverlayBody message="Arer you sure you want to delete" cb={()=>this.deleteHandler(coupon._id)} />
+                            )
+                          }
+                        />
+                      ),
                       size: 5,
                     },
                   ]}
@@ -174,4 +208,8 @@ const mapStateToProps = (state) => ({
   coupon: state.coupon,
 });
 
-export default connect(mapStateToProps, { getCouponAsync })(CouponScreen);
+export default connect(mapStateToProps, {
+  getCouponAsync,
+  deleteCouponAsync,
+  showDialog,
+})(CouponScreen);

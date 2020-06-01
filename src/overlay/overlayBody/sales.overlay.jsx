@@ -23,6 +23,8 @@ class Sales extends Component {
       discount: 0,
       status: false,
       items: [],
+      views : 0,
+      itemsSold : 0
     },
   };
 

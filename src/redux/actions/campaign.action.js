@@ -25,6 +25,11 @@ const editCampaign  = campaign =>({
     payload : campaign
 })
 
+const deleteCampaign = campId =>({
+  type : CAMPAIGN_ACTION.DELETE_CAMPAIGN,
+  payload : campId
+})
+
 export const getCampaignASync = (options) => async (dispatch) => {
   dispatch(campaignLoad());
 
@@ -73,3 +78,19 @@ export const editCampaignAsync = (campaign , raw) => async(dispatch)=>{
         dispatch(campaignLoadDone());
       }
 }
+
+export const deleteCampaignAsync = (campId)=> async dispatch=>{
+  dispatch(campaignLoad());
+
+  try{
+    await axios.delete("/api/admin/shop/deletecampaign",{data :{_id : campId}});
+    dispatch(deleteCampaign(campId));
+  }
+  catch (err) {
+    console.log(err);
+    
+  } finally {
+    dispatch(campaignLoadDone());
+  }
+}
+

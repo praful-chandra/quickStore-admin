@@ -1,6 +1,6 @@
 import {SALE_ACTION} from "../actions/action.types";
 
-import {addSale,editSale} from "../utils/sale.util";
+import {addSale,editSale,deleteSale} from "../utils/sale.util";
 
 const INITIAL_STATE = {
     sales : [],
@@ -34,6 +34,10 @@ export default (state  = INITIAL_STATE , action)=>{
         case SALE_ACTION.EDIT_SALE : return {
             ...state,
             sales : editSale(state.sales,action.payload)
+        }
+        case SALE_ACTION.DELETE_SALE : return {
+            ...state,
+            sales : deleteSale(state.sales,action.payload)
         }
 
         default : return state

@@ -1,6 +1,6 @@
 import {CAMPAIGN_ACTION} from "../actions/action.types";
 
-import {addCampaign,editCampaign} from "../utils/campaign.util";
+import {addCampaign,editCampaign,deleteCampaign} from "../utils/campaign.util";
 
 const INITIAL_STATE = {
     campaigns: [],
@@ -35,6 +35,11 @@ export default (state = INITIAL_STATE, action)=>{
         case CAMPAIGN_ACTION.EDIT_CAMPAIGN : return {
             ...state,
             campaigns : editCampaign(state.campaigns,action.payload)
+        }
+
+        case CAMPAIGN_ACTION.DELETE_CAMPAIGN : return{
+            ...state,
+            campaigns : deleteCampaign(state.campaigns,action.payload)
         }
 
         default : return state

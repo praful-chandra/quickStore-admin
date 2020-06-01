@@ -18,7 +18,7 @@ class OrdersScreen extends Component {
   }
   render() {
     return <div className="window-wrapper">
-            <CategoryHeader title="Orders">
+            {/* <CategoryHeader title="Orders">
           <DropDownBox
             label="SortBy"
             options={["select One", "name", "creation Date", "Number of items"]}
@@ -31,7 +31,7 @@ class OrdersScreen extends Component {
             value={this.state.search}
             cb={(e) => this.setState({ search: e.target.value })}
           />
-        </CategoryHeader>
+        </CategoryHeader> */}
 
         <CategoryBody>
           <CategorySubHeading
