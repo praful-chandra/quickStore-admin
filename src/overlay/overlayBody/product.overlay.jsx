@@ -8,17 +8,21 @@ import TextArea from "../../components/textArea/textArea.component";
 import ToggleSwitch from "../../components/toggleSwitch/toggleSwitch.component";
 import HollowButton from "../../components/hollowButton/hollowButton.component";
 
-import { editProductAsync , createProductAsync } from "../../redux/actions/products.actions";
-import {hideOverlay} from "../../redux/actions/overlay.action";
+import {
+  editProductAsync,
+  createProductAsync,
+} from "../../redux/actions/products.actions";
+import { hideOverlay } from "../../redux/actions/overlay.action";
 class ProductOverlay extends Component {
   state = {
     item: {
-      name : "",
-      quantity : 0,
-      price : 0,
-      categoryId : this.props.category[0]._id,
-      status : false
-  },
+      name: "",
+      quantity: 0,
+      price: 0,
+      categoryId: this.props.category[0]._id,
+      status: false,
+      for: "All",
+    },
     imageToPreview: null,
   };
 
@@ -28,10 +32,7 @@ class ProductOverlay extends Component {
         item: this.props.item,
         imageToPreview: this.props.item.image,
       });
-
-  
-      }
-  
+  }
 
   ToggleSwitch = (status) => {
     //switches the status of product
@@ -48,6 +49,14 @@ class ProductOverlay extends Component {
       item: {
         ...this.state.item,
         categoryId: categoryId,
+      },
+    });
+  };
+  forSelector = (forw) => {
+    this.setState({
+      item: {
+        ...this.state.item,
+        for: forw,
       },
     });
   };
@@ -75,7 +84,7 @@ class ProductOverlay extends Component {
   };
 
   updateProduct = () => {
-        //Two copies created , 
+    //Two copies created ,
     //first is form data to send to server
     //second is raw js object to update the redux state
     const formData = new FormData();
@@ -88,24 +97,23 @@ class ProductOverlay extends Component {
       formData.delete("image");
     }
 
-
     const rawData = {
       ...this.state.item,
-      image : this.state.imageToPreview
-    }
+      image: this.state.imageToPreview,
+    };
 
-    this.props.editProductAsync(formData,rawData);
+    this.props.editProductAsync(formData, rawData);
     this.props.hideOverlay();
   };
 
-  createProduct = ()=>{
-           //Two copies created , 
+  createProduct = () => {
+    //Two copies created ,
     //first is form data to send to server
     //second is raw js object to update the redux state
 
     for (const key in this.state.item) {
-      if(this.state.item[key] === "" || 0){
-        return alert("all fields reduired")
+      if (this.state.item[key] === "" || 0) {
+        return alert("all fields reduired");
       }
     }
 
@@ -117,20 +125,18 @@ class ProductOverlay extends Component {
 
     const rawData = {
       ...this.state.item,
-      image : this.state.imageToPreview
-    }
-    
-    this.props.createProductAsync(formData,rawData);
+      image: this.state.imageToPreview,
+    };
+
+    this.props.createProductAsync(formData, rawData);
     this.props.hideOverlay();
-    
-  }
+  };
 
   render() {
-    
     return (
       <div className="overlay-form">
         <ImagePreview
-          image={this.state.imageToPreview ? this.state.imageToPreview : "" }
+          image={this.state.imageToPreview ? this.state.imageToPreview : ""}
           cb={this.imageSelector}
           size="32"
         />
@@ -141,7 +147,7 @@ class ProductOverlay extends Component {
             size="40"
             placeholder="Product name"
             type="text"
-            value={this.state.item.name }
+            value={this.state.item.name}
             cb={this.productTextEditor}
           />
           <DropDownBox
@@ -154,6 +160,33 @@ class ProductOverlay extends Component {
             ]}
             value={this.state.item.categoryId}
             cb={this.categorySelector}
+          />
+          <DropDownBox
+            label="For"
+            options={[
+              {
+                name: "All",
+                value: "All",
+              },
+              {
+                name: "Men",
+                value: "Men",
+              },
+              {
+                name: "Women",
+                value: "Women",
+              },
+              {
+                name: "Boys",
+                value: "Boys",
+              },
+              {
+                name: "Girls",
+                value: "Girls",
+              },
+            ]}
+            value={this.state.item.for}
+            cb={this.forSelector}
           />
         </div>
         <div className="overlay-horizontalBlock">
@@ -203,7 +236,11 @@ class ProductOverlay extends Component {
               cb={this.ToggleSwitch}
               value={this.state.item.status}
             />
-            <HollowButton title="Save" size="9" cb={this.props.new ? this.createProduct :this.updateProduct} />
+            <HollowButton
+              title="Save"
+              size="9"
+              cb={this.props.new ? this.createProduct : this.updateProduct}
+            />
           </div>
         </div>
       </div>
@@ -215,4 +252,8 @@ const mapSateToProps = (state) => ({
   category: state.category.category,
 });
 
-export default connect(mapSateToProps, { editProductAsync,createProductAsync,hideOverlay})(ProductOverlay);
+export default connect(mapSateToProps, {
+  editProductAsync,
+  createProductAsync,
+  hideOverlay,
+})(ProductOverlay);
